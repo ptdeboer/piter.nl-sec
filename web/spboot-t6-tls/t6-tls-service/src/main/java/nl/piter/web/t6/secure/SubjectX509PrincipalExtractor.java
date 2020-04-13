@@ -36,7 +36,7 @@ public class SubjectX509PrincipalExtractor implements X509PrincipalExtractor {
         }
 
         List<Rdn> rdns = ldapName.getRdns();
-        rdns.stream().forEach(el -> log.info("-RDN '{}'='{}", el.getType(), el.getValue()));
+        rdns.stream().forEach(el -> log.debug("-RDN '{}'='{}", el.getType(), el.getValue()));
 
         Optional<Rdn> optCN = rdns.stream().filter(rdn -> rdn.getType().equalsIgnoreCase("CN")).findFirst();
         Optional<Rdn> optOU = rdns.stream().filter(rdn -> rdn.getType().equalsIgnoreCase("OU")).findFirst();
