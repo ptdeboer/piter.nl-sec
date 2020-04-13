@@ -1,0 +1,24 @@
+# IDEs
+build/
+target/
+bin/
+.classpath
+.gradle/
+.project
+.settings/
+.idea/
+*.iml
+stale_outputs_checked
+
+# tmp/backup
+*.swp
+*.swo
+*~
+*.log
+
+#maven
+*.versionsBackup
+
+#application logs
+log/
+
