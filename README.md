@@ -3,7 +3,7 @@ Piter.NL Code Examples
 
 (C) 2015-2020 Piter.NL
 
-Web & Crypto code examples.
+Security related (Spring) Web & Crypto code examples.
 
 Crypto
 ---
