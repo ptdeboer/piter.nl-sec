@@ -1,11 +1,11 @@
-Piter.NL Code Examples
+Piter.NL Security Examples
 ===
 
 (C) 2015-2020 Piter.NL
 
 Security related (Spring) Web & Crypto code examples.
 
-Crypto
+Crypto PKI
 ---
 
 Crypto utils and scripts:
@@ -14,7 +14,7 @@ Crypto utils and scripts:
 
 See pki-demo how to setup your own PKI with custom Root CA, Intermediate CA.
 
-Web
+Web TLS
 ---
 
 Spring Boot examples:
