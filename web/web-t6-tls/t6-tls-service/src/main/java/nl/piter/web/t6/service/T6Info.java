@@ -1,3 +1,4 @@
+/* (C) 2020 Piter.NL - free of use. */
 package nl.piter.web.t6.service;
 
 import lombok.AllArgsConstructor;

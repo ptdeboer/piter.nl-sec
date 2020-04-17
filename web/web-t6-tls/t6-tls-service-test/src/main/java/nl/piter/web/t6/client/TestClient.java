@@ -1,3 +1,4 @@
+/* (C) 2020 Piter.NL - free of use. */
 package nl.piter.web.t6.client;
 
 import lombok.extern.slf4j.Slf4j;

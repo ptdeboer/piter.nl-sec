@@ -8,7 +8,7 @@
 
     <parent>
         <groupId>nl.piter.web</groupId>
-        <artifactId>t6-tls</artifactId>
+        <artifactId>web-t6-tls</artifactId>
         <version>0.6.0-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>

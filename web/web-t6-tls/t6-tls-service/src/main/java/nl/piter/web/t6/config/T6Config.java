@@ -1,4 +1,4 @@
-/* (C) 2020 Piter.NL */
+/* (C) 2020 Piter.NL - free of use. */
 package nl.piter.web.t6.config;
 
 import nl.piter.web.t6.service.T6Info;
@@ -8,7 +8,6 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 @ComponentScan(basePackages = {"nl.piter.web.t6"})
-//@PropertySource("classpath:application.properties")
 public class T6Config {
 
     @Bean
