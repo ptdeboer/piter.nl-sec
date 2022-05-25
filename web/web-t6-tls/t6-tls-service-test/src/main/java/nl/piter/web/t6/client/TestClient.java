@@ -1,4 +1,5 @@
-/* (C) 2020 Piter.NL - free of use. */
+/* (C) 2020-2022 Piter.NL - free of use, but keep this header. */
+//
 package nl.piter.web.t6.client;
 
 import lombok.extern.slf4j.Slf4j;
@@ -20,7 +21,7 @@ import java.security.*;
 import java.security.cert.CertificateException;
 
 /**
- * Stand alone client.
+ * Stand-alone client.
  */
 @Slf4j
 public class TestClient {

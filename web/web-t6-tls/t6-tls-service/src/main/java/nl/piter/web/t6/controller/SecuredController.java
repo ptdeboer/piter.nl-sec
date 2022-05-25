@@ -1,4 +1,5 @@
-/* (C) 2020 Piter.NL - free of use. */
+/* (C) 2020-2022 Piter.NL - free of use, but keep this header. */
+//
 package nl.piter.web.t6.controller;
 
 import lombok.extern.slf4j.Slf4j;
@@ -29,7 +30,7 @@ public class SecuredController {
     @Autowired
     T6Info t6Info;
 
-    // Fine grained authorization checks can be done by using Roles:
+    // Fine-grained authorization checks can be done by using Roles:
     @PreAuthorize("hasAuthority('CUSTOMER_ROLE')")
     @RequestMapping(value = "/secure", method = RequestMethod.GET)
     public String getSecure() {

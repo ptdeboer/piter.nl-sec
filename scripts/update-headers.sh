@@ -38,6 +38,10 @@ replaceHeader()
                              x
                              d
                 }
+                # strip bogus comments before package
+                /package/ {
+                             s/.*package/package/
+                }
   }
   # print rest
   p

@@ -1,4 +1,5 @@
-/* (C) 2020 Piter.NL - free of use. */
+/* (C) 2020-2022 Piter.NL - free of use, but keep this header. */
+//
 package nl.piter.web.t6.secure;
 
 import lombok.extern.slf4j.Slf4j;
@@ -18,7 +19,7 @@ public class SubjectX509PrincipalExtractor implements X509PrincipalExtractor {
 
     /**
      * Inspect X509 and map to User Principle.
-     * Currently returns "CN = ..."  field.
+     * Currently, returns "CN = ..."  field.
      *
      * @param clientCert
      * @return CN part of SubjectDN
