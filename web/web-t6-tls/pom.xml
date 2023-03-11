@@ -5,7 +5,7 @@
 
     <groupId>nl.piter.web</groupId>
     <artifactId>web-t6-tls</artifactId>
-    <version>0.6.0-SNAPSHOT</version>
+    <version>1.0.1-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <properties>
@@ -27,8 +27,7 @@
                     <artifactId>maven-compiler-plugin</artifactId>
                     <version>3.8.1</version>
                     <configuration>
-                        <source>11</source>
-                        <target>11</target>
+                        <release>11</release>
                     </configuration>
                 </plugin>
                 <plugin>

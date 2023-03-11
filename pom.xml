@@ -8,11 +8,10 @@
 
     <groupId>nl.piter.sec</groupId>
     <artifactId>piter.nl-sec</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.0.1-SNAPSHOT</version>
 
     <modules>
         <module>pki/pki-demo</module>
-        <module>web/java8/web-t6-tls</module>
         <module>web/web-t6-tls</module>
     </modules>
 

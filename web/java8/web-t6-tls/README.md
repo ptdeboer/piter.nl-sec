@@ -7,3 +7,10 @@ Modules:
 
 - t6-tls-service      : Example Spring Boot Service with TLS-ma.
 - t6-tls-service-test : Example functional and integration testing.
+
+
+Versions
+---
+ - Java 8
+ - Spring-boot 2.5.14
+

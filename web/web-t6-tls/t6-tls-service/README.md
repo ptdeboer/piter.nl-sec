@@ -12,17 +12,16 @@ Start using maven:
 
 Plain jar:
 
-    java -jar target/t6-tls-service-0.6.0-SNAPSHOT-exec.jar
-
+    java -jar target/t6-tls-service-1.0.1-SNAPSHOT-exec.jar
 
 API
 ---
 
-Call unsecured part:
+Call insecured part:
 
     curl --insecure https://localhost:9443/ping
     curl --insecure https://localhost:9443/info
-    
+
 Call using private keys:
 
     ...
