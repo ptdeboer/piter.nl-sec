@@ -1,7 +1,7 @@
 Piter.NL Security Examples
 ===
 
-(C) 2015-2022 Piter.NL - free of use.
+(C) 2015-2023 Piter.NL - free of use.
 
 Security related (Spring) Web & Crypto code examples.
 
@@ -19,4 +19,11 @@ Web TLS
 
 Spring Boot examples:
 
-- web/web-t6-tls => nl.piter.web:web-t6.tls
+- web/web.t6-tls => nl.piter.web:web.t6-tls
+
+Authentication and Authorization
+--- 
+
+Spring boot with JWT and LDAP example:
+
+- web/web.t7-jwtldap => nl.piter.web:web.t7-jwtldap

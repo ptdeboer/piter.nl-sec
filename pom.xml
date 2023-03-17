@@ -12,7 +12,8 @@
 
     <modules>
         <module>pki/pki-demo</module>
-        <module>web/web-t6-tls</module>
+        <module>web/web.t6-tls</module>
+        <module>web/java8/web.t6-tls</module>
     </modules>
 
 </project>
