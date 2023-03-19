@@ -2,7 +2,7 @@
 //
 package nl.piter.web.t6.config;
 
-import nl.piter.web.t6.service.T6Info;
+import nl.piter.web.t6.controller.rest.T6Info;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;

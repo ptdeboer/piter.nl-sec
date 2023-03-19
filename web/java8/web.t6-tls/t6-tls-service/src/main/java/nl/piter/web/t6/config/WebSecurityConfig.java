@@ -30,7 +30,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 // Public:
                 .antMatchers("/ping").permitAll()
                 // Authenticated:
-                .antMatchers("/secure/**").authenticated()
+                .antMatchers("/domain/**").authenticated()
                 .and()
                 .x509()
                 .x509PrincipalExtractor(new SubjectX509PrincipalExtractor())

@@ -38,7 +38,11 @@
                     </execution>
                 </executions>
             </plugin>
-            <!-- test -->
+            <!-- Only unit tests, no integration tests (service-test module) -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+            </plugin>
         </plugins>
     </build>
 

@@ -21,19 +21,20 @@ import java.security.*;
 import java.security.cert.CertificateException;
 
 /**
- * Stand-alone client.
+ * Standalone example client. Start App first, then use this client.
+ * For integration testing: see '-it' module.
  */
 @Slf4j
 public class TestClient {
 
-    private static String serviceUrl = "https://localhost:9443";
+    private static final String serviceUrl = "https://localhost:9443";
 
     public static void main(String[] args) {
         try {
             TestClient client = new TestClient();
             client.testPing();
-            client.testSecure();
-            client.testSecureAuth();
+            client.testSecureDomain();
+            client.testSecureDomainAuth();
         } catch (Exception e) {
             log.error(e.getMessage(), e);
         }
@@ -50,8 +51,8 @@ public class TestClient {
         log.debug("BODY     :{}", response.getBody());
     }
 
-    public void testSecure() throws Exception {
-        String urlPath = "secure";
+    public void testSecureDomain() throws Exception {
+        String urlPath = "domain";
         RestTemplate restTemplate = createSecureRestTemplate();
         log.debug("secure:'{}'", urlPath);
         //
@@ -61,8 +62,8 @@ public class TestClient {
         log.debug("BODY     :{}", response.getBody());
     }
 
-    public void testSecureAuth() throws Exception {
-        String urlPath = "secure/auth";
+    public void testSecureDomainAuth() throws Exception {
+        String urlPath = "domain/myauth";
         RestTemplate restTemplate = createSecureRestTemplate();
         log.debug("secure:'{}'", urlPath);
         //

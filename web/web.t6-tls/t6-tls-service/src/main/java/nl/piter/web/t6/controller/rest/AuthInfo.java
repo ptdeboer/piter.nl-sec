@@ -1,20 +1,16 @@
 /* (C) 2020-2023 Piter.NL - free of use, but keep this header. */
 //
-package nl.piter.web.t6.service;
+package nl.piter.web.t6.controller.rest;
 
-import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.ToString;
+import lombok.*;
 
 import java.util.Collection;
 
 /**
- * Simple (immutable) value object.
+ * Authorization information (REST) DTO.
  */
-@Getter
+@Data
 @ToString
-@EqualsAndHashCode
 @AllArgsConstructor
 public class AuthInfo {
 

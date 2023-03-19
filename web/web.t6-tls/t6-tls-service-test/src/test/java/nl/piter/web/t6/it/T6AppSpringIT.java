@@ -5,32 +5,32 @@ package nl.piter.web.t6.it;
 import lombok.extern.slf4j.Slf4j;
 import nl.piter.web.t6.T6App;
 import nl.piter.web.t6.TestUtil;
-import org.junit.BeforeClass;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import nl.piter.web.t6.controller.rest.DomainInfo;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
-import static junit.framework.TestCase.fail;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.fail;
 
 /**
- * Integration test with Spring JUnit Runner.
+ * Integration test with Spring JUnit4 Runner.
  */
 @Slf4j
-@RunWith(SpringJUnit4ClassRunner.class)
+@ExtendWith(SpringExtension.class)
 @ActiveProfiles("ittest") // use application-ittest.properties
 @SpringBootTest(classes = {T6App.class}, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class T6AppIT {
+public class T6AppSpringIT {
 
-    @BeforeClass
+    @BeforeAll
     public static void startT6() {
-        // check
     }
 
     // === instance === //
@@ -47,7 +47,7 @@ public class T6AppIT {
     }
 
     @Test
-    public void testPing() throws Exception {
+    public void restPingReturnsPong() throws Exception {
         String urlPath = "ping";
         RestTemplate restTemplate = TestUtil.createInsecureRestTemplate();
         log.debug("ping:'{}'", urlPath);
@@ -56,27 +56,30 @@ public class T6AppIT {
         //
         log.debug("RESPONSE: {}", response);
         log.debug("BODY    : {}", response.getBody());
+        assertThat(response.getBody()).isEqualTo("pong");
     }
 
     @Test
-    public void testSecure() throws Exception {
-        String urlPath = "secure";
+    public void restGetToDomainReturnsDomain() throws Exception {
+        String urlPath = "domain";
         RestTemplate restTemplate = TestUtil.createSecureRestTemplate("password",
                 "classpath:keystores/customer.p12",
-                "classpath:keystores/root-ca.ts.p12" // can use company.p12 here also
-        );
-
+                "classpath:keystores/root-ca.ts.p12"); // can use company.p12 here also.
+        //
         log.debug("secure:'{}'", urlPath);
         //
-        ResponseEntity<String> response = restTemplate.getForEntity(getServiceUrl() + "/" + urlPath, String.class);
+        ResponseEntity<DomainInfo> response = restTemplate.getForEntity(getServiceUrl() + "/" + urlPath, DomainInfo.class);
         //
-        log.debug("RESPONSE: {}", response);
-        log.debug("BODY    : {}", response.getBody());
+        log.debug("RESPONSE     : {}", response);
+        log.debug("BODY         : {}", response.getBody());
+        log.debug("DOMAIN INFO: : {}", response.getBody().getInfo());
+        assertThat(response.getBody().getInfo()).isNotEmpty();
+
     }
 
     @Test
-    public void testSecureNotAuthorized() throws Exception {
-        String urlPath = "secure";
+    public void restGetToUnauthorizedDomainReturnsError() throws Exception {
+        String urlPath = "domain";
         RestTemplate restTemplate = TestUtil.createInsecureRestTemplate();
 
         log.debug("secure:'{}'", urlPath);

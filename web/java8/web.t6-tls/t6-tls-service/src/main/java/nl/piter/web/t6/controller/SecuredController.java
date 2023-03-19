@@ -32,13 +32,13 @@ public class SecuredController {
 
     // Fine-grained authorization checks can be done by using Roles:
     @PreAuthorize("hasAuthority('CUSTOMER_ROLE')")
-    @RequestMapping(value = "/secure", method = RequestMethod.GET)
+    @RequestMapping(value = "/domain", method = RequestMethod.GET)
     public String getSecure() {
         return "Secured!";
     }
 
     @PreAuthorize("hasAuthority('CUSTOMER_ROLE')")
-    @RequestMapping(value = "/secure/auth", method = RequestMethod.GET)
+    @RequestMapping(value = "/domain/auth", method = RequestMethod.GET)
     public AuthInfo getAuthInfo() {
 
         // Check Security Context and fetch UserDetails as created by UserDetailsService.

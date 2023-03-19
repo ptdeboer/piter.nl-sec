@@ -3,8 +3,10 @@
 package nl.piter.web.t6.controller;
 
 import lombok.extern.slf4j.Slf4j;
-import nl.piter.web.t6.service.AuthInfo;
-import nl.piter.web.t6.service.T6Info;
+import nl.piter.web.t6.controller.rest.AuthInfo;
+import nl.piter.web.t6.controller.rest.DomainInfo;
+import nl.piter.web.t6.controller.rest.T6Info;
+import nl.piter.web.t6.service.CustomerDomainService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.GrantedAuthority;
@@ -25,20 +27,30 @@ import java.util.List;
  */
 @Slf4j
 @RestController
-public class SecuredController {
+public class DomainController {
+    
+    private final T6Info t6Info;
+    private final CustomerDomainService domainService;
 
     @Autowired
-    T6Info t6Info;
-
-    // Fine-grained authorization checks can be done by using Roles:
-    @PreAuthorize("hasAuthority('CUSTOMER_ROLE')")
-    @RequestMapping(value = "/secure", method = RequestMethod.GET)
-    public String getSecure() {
-        return "Secured!";
+    protected DomainController(T6Info t6Info, CustomerDomainService domainService) {
+        this.t6Info=t6Info;
+        this.domainService=domainService;
     }
 
-    @PreAuthorize("hasAuthority('CUSTOMER_ROLE')")
-    @RequestMapping(value = "/secure/auth", method = RequestMethod.GET)
+    /**
+     * Service level authority method. Security check is delegated to DomainService:
+     */
+    @RequestMapping(value = "/domain", method = RequestMethod.GET)
+    public DomainInfo getDomain() {
+        return domainService.getDomain();
+    }
+
+    /**
+     * Controller level authority check.
+     */
+    @PreAuthorize("hasAuthority('CUSTOMER')")
+    @RequestMapping(value = "/domain/myauth", method = RequestMethod.GET)
     public AuthInfo getAuthInfo() {
 
         // Check Security Context and fetch UserDetails as created by UserDetailsService.

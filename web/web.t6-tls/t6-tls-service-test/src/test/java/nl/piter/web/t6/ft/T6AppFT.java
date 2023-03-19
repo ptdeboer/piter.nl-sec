@@ -4,15 +4,16 @@ package nl.piter.web.t6.ft;
 
 import lombok.extern.slf4j.Slf4j;
 import nl.piter.web.t6.TestUtil;
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import nl.piter.web.t6.controller.rest.DomainInfo;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
-import static junit.framework.TestCase.fail;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.fail;
 
 /**
  * Functional Testing with Application Starter.
@@ -27,7 +28,7 @@ public class T6AppFT {
 
     // === //
 
-    @BeforeClass
+    @BeforeAll
     public static void startT6() {
         appStarter = new T6AppStarter();
         appStarter.startWithProfiles(new String[]{"fttest"}, new String[0]);
@@ -36,7 +37,7 @@ public class T6AppFT {
         log.info("servicePort:{}", servicePort);
     }
 
-    @AfterClass
+    @AfterAll
     public static void stopT6() {
         appStarter.stop();
     }
@@ -46,7 +47,7 @@ public class T6AppFT {
     }
 
     @Test
-    public void testPing() throws Exception {
+    public void restPingReturnsPong() throws Exception {
         String urlPath = "ping";
         RestTemplate restTemplate = TestUtil.createInsecureRestTemplate();
         log.debug("ping:'{}'", urlPath);
@@ -55,28 +56,30 @@ public class T6AppFT {
         //
         log.debug("RESPONSE: {}", response);
         log.debug("BODY    : {}", response.getBody());
+        assertThat(response.getBody()).isEqualTo("pong");
     }
 
     @Test
-    public void testSecure() throws Exception {
-        String urlPath = "secure";
+    public void restGetToDomainReturnsDomain() throws Exception {
+        String urlPath = "domain";
         RestTemplate restTemplate = TestUtil.createSecureRestTemplate("password",
                 "classpath:keystores/customer.p12",
-                "classpath:keystores/root-ca.ts.p12" // can use company.p12 here also
-        );
-
+                "classpath:keystores/root-ca.ts.p12"); // can use company.p12 here also.
+        //
         log.debug("secure:'{}'", urlPath);
         //
-        ResponseEntity<String> response = restTemplate.getForEntity(getServiceUrl() + "/" + urlPath, String.class);
+        ResponseEntity<DomainInfo> response = restTemplate.getForEntity(getServiceUrl() + "/" + urlPath, DomainInfo.class);
         //
-        log.debug("RESPONSE: {}", response);
-        log.debug("BODY    : {}", response.getBody());
+        log.debug("RESPONSE     : {}", response);
+        log.debug("BODY         : {}", response.getBody());
+        log.debug("DOMAIN INFO: : {}", response.getBody().getInfo());
+        assertThat(response.getBody().getInfo()).isNotEmpty();
+
     }
 
-
     @Test
-    public void testSecureNotAuthorized() throws Exception {
-        String urlPath = "secure";
+    public void restGetToUnauthorizedDomainReturnsError() throws Exception {
+        String urlPath = "domain";
         RestTemplate restTemplate = TestUtil.createInsecureRestTemplate();
 
         log.debug("secure:'{}'", urlPath);

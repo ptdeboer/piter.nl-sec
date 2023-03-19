@@ -3,7 +3,7 @@
 package nl.piter.web.t6.controller;
 
 import lombok.extern.slf4j.Slf4j;
-import nl.piter.web.t6.service.T6Info;
+import nl.piter.web.t6.controller.rest.T6Info;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;

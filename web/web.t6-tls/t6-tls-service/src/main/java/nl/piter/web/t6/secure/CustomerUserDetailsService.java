@@ -12,7 +12,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import java.util.Arrays;
 import java.util.List;
 
-import static nl.piter.web.t6.secure.Roles.CUSTOMER_ROLE;
+import static nl.piter.web.t6.secure.Authority.CUSTOMER;
 
 @Slf4j
 public class CustomerUserDetailsService implements UserDetailsService {
@@ -31,7 +31,7 @@ public class CustomerUserDetailsService implements UserDetailsService {
         log.info("loadUserByUsername: {}", username);
         if (customers.contains(username)) {
             log.info("Authorization ok for user: {}", username);
-            return new User(username, "", AuthorityUtils.commaSeparatedStringToAuthorityList(CUSTOMER_ROLE.toString()));
+            return new User(username, "", AuthorityUtils.commaSeparatedStringToAuthorityList(CUSTOMER.toString()));
         } else {
             // Exception is auto-mapped to 403:
             log.error("Authorization NOT ok. User not authorized:{}", username);
