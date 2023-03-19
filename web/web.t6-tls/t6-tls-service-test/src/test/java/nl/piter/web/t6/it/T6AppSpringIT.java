@@ -21,7 +21,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.fail;
 
 /**
- * Integration test with Spring JUnit4 Runner.
+ * Integration test with Spring JUnit5 Runner.
  */
 @Slf4j
 @ExtendWith(SpringExtension.class)

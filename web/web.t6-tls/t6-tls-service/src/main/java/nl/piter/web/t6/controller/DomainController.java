@@ -60,8 +60,8 @@ public class DomainController {
 
         List<String> authList = new ArrayList();
         grantedList.stream().map(Object::toString).forEach(authList::add);
-        log.info(" -username :{}", details.getUsername());
-        log.info(" -authList :{}", authList);
+        log.info("Domain username   : '{}'", details.getUsername());
+        log.info("Domain authorities: '{}'", authList);
         return new AuthInfo(details.getUsername(), authList);
     }
 

@@ -1,6 +1,6 @@
 #!/bin/bash
 ##
-# (C) Piter.nl 2015-2020
+# (C) Piter.nl 2015-2023
 ##
 #
 # Example for PKI demo, creates PKI structure:
