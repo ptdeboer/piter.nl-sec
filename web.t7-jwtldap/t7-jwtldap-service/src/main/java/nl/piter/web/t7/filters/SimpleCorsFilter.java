@@ -1,0 +1,58 @@
+/* (C) 2017-2023 Piter.NL
+ * Use of this code allowed under restrictions. See LICENSE.txt for details.
+ */
+package nl.piter.web.t7.filters;
+
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.core.Ordered;
+import org.springframework.core.annotation.Order;
+import org.springframework.stereotype.Component;
+
+import javax.servlet.*;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+
+/**
+ * CORS Filter to allow Cross Origin Requests from the UI.
+ * (No useful UI yet).
+ */
+@Component
+@Slf4j
+@Order(Ordered.HIGHEST_PRECEDENCE)
+public class SimpleCorsFilter implements Filter {
+
+    public SimpleCorsFilter() {
+    }
+
+    @Override
+    public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain)
+            throws IOException, ServletException {
+        log.debug("doFilter(): enabling CORS.");
+
+        HttpServletRequest request = (HttpServletRequest) req;
+        HttpServletResponse response = (HttpServletResponse) res;
+
+        response.setHeader("Access-Control-Allow-Origin", request.getHeader("Origin"));
+        response.setHeader("Access-Control-Allow-Credentials", "true");
+        response.setHeader("Access-Control-Allow-Methods", "POST, PUT, GET, OPTIONS, DELETE");
+        response.setHeader("Access-Control-Allow-Max-Age", "3600");
+        response.setHeader("Access-Control-Allow-Headers",
+                "Content-Type, Accept, X-Requested-With, remember-me, Authorization");
+
+        if ("OPTIONS".equalsIgnoreCase(request.getMethod())) {
+            response.setStatus(HttpServletResponse.SC_OK);
+        } else {
+            chain.doFilter(req, res);
+        }
+    }
+
+    @Override
+    public void destroy() {
+    }
+
+    @Override
+    public void init(FilterConfig arg0) throws ServletException {
+    }
+
+}

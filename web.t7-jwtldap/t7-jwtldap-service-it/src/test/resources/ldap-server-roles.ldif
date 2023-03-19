@@ -1,0 +1,77 @@
+dn: dc=mydomain,dc=com
+objectclass: top
+objectclass: domain
+objectclass: extensibleObject
+dc: mydomain
+
+dn: ou=groups,dc=mydomain,dc=com
+objectclass: top
+objectclass: organizationalUnit
+ou: groups
+
+dn: ou=people,dc=mydomain,dc=com
+objectclass: top
+objectclass: organizationalUnit
+ou: people
+
+dn: ou=\"Users Operations\",dc=mydomain,dc=com
+objectclass: top
+objectclass: organizationalUnit
+ou: "Users Operations"
+
+dn: uid=jan,ou=people,dc=mydomain,dc=com
+objectclass: top
+objectclass: person
+objectclass: organizationalPerson
+objectclass: inetOrgPerson
+cn: Jan Janssen
+sn: Janssen
+uid: jan
+userPassword: password
+sAMAccountName: jan001
+memberOf: cn=Kaapvaarders,ou=groups,dc=mydomain,dc=com
+
+dn: uid=piet,ou=people,dc=mydomain,dc=com
+objectclass: top
+objectclass: person
+objectclass: organizationalPerson
+objectclass: inetOrgPerson
+cn: Piet Baardmans
+sn: Baardmans
+uid: piet
+userPassword: password
+sAMAccountName: piet007
+memberOf: cn=Kaapvaarders,ou=groups,dc=mydomain,dc=com
+
+dn: uid=joris,ou=people,dc=mydomain,dc=com
+objectclass: top
+objectclass: person
+objectclass: organizationalPerson
+objectclass: inetOrgPerson
+cn: Joris Kaapvaerder
+sn: Kaapvaerder
+uid: joris
+userPassword: password
+sAMAccountName: joris666
+memberOf: cn=Kaapvaarders,ou=groups,dc=mydomain,dc=com
+
+dn: uid=admin,ou=people,dc=mydomain,dc=com
+objectclass: top
+objectclass: person
+objectclass: organizationalPerson
+objectclass: inetOrgPerson
+cn: Admin Nimda
+sn: Nimda
+uid: admin
+userPassword: admin
+sAMAccountName: admin
+
+dn: cn=Kaapvaarders,ou=groups,dc=mydomain,dc=com
+objectClass: posixGroup
+objectClass: groupOfNames
+objectClass: top
+cn: Kaapvaarders
+gidNumber: 1234
+member: uid=jan,ou=people,dc=mydomain,dc=com
+member: uid=piet,ou=people,dc=mydomain,dc=com
+member: uid=joris,ou=people,dc=mydomain,dc=com

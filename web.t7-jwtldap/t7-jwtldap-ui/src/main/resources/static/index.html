@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- origin: https://getbootstrap.com/docs/4.0/ -->
+    <title>LDAP-JWT Demo (T7)</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
+          rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
+          crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <!-- local -->
+    <link href="main.css" rel="stylesheet">
+    <script src="main.js"></script>
+</head>
+<body>
+
+<div class="container-fluid" style="height: 100%;">
+
+    <nav class="navbar navbar-light bg-light justify-content-between">
+        <a class="navbar-brand">LDAP-JWT Demo (T7)</a>
+        <div style="font-size: small;">
+            [<span class="app-name-id"></span>
+            -<span class="app-version-id"></span>(<span
+                class="app-timestamp-id"></span>)]
+        </div>
+        </a>
+    </nav>
+
+    <div class="card">
+        <div class="card-body">
+            <h3 class="h3 mb-3 font-weight-normal">Login please</h3>
+            <div class="row justify-content-md-left">
+                <div class="col-md-auto">
+                    <form id="login-form" class="form-signin" action="submit">
+                        <input type="text" tabindex="0" name="username" id="login-username" class="form-control"
+                               required>
+                        <input type="password" tabindex="0" name="password" id="login-password" class="form-control"
+                               required>
+                        <div class="d-flex justify-content-around">
+                            <button id="login-but" class="btn btn-lg btn-primary btn-block" type="button">Sign in
+                            </button>
+                            <button id="logout-but" class="btn btn-lg btn-primary btn-block" type="button">Sign out
+                            </button>
+                        </div>
+
+                    </form>
+                </div>
+                <div class="col col-lg-2"/>
+            </div>
+            <hr>
+            <h3 class="h3 mb-3 font-weight-normal">User details</h3>
+            <div class="row">
+                <div class="col col-sm-3">Account Status</div>
+                <div class="col"><span id="app-user-status-id">...</span></div>
+            </div>
+            <div class="row">
+                <div class="col col-sm-3">Account Username</div>
+                <div class="col"><span id="app-user-name-id">...</span></div>
+            </div>
+            <div class="row">
+                <div class="col col-sm-3">Account Fullname</div>
+                <div class="col"><span id="app-user-fullname-id">...</span></div>
+            </div>
+            <div class="row">
+                <div class="col col-sm-3">Account Authorities</div>
+                <div class="col"><span id="app-user-authorities-id">...</span></div>
+            </div>
+        </div>
+    </div>
+    <div class="card">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-2 offset-md-5">
+                    <button id="test-but" class="btn btn-lg btn-primary btn-block" type="button">Test DOMAIN</button>
+                </div>
+            </div>
+            <hr>
+            <div class="row">
+                <div class="col-md-2 offset-md-5">
+                    <button id="test-admin-but" class="btn btn-lg btn-primary btn-block" type="button">Test ADMIN
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

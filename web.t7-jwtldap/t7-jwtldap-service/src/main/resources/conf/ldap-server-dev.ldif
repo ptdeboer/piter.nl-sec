@@ -1,0 +1,122 @@
+# DOMAINS
+
+dn: dc=kaapvaarders,dc=com
+objectclass: top
+objectclass: domain
+objectclass: extensibleObject
+dc: mydomain
+
+dn: ou=groups,dc=kaapvaarders,dc=com
+objectclass: top
+objectclass: organizationalUnit
+ou: groups
+
+dn: ou=people,dc=kaapvaarders,dc=com
+objectclass: top
+objectclass: organizationalUnit
+ou: people
+
+# USERS
+
+dn: uid=jan,ou=people,dc=kaapvaarders,dc=com
+objectclass: top
+objectclass: person
+objectclass: organizationalPerson
+objectclass: inetOrgPerson
+cn: Jan Janssen
+sn: Janssen
+uid: jan
+userPassword: password
+sAMAccountName: jan001
+mail: jan@kaapvaarders.com
+# NOTE: bidirectional relation between GROUP and USER
+memberOf: cn=g-domain-kaapvaarders-admin,ou=groups,dc=kaapvaarders,dc=com
+memberOf: cn=g-domain-kaapvaarders-viewers,ou=groups,dc=kaapvaarders,dc=com
+
+dn: uid=piet,ou=people,dc=kaapvaarders,dc=com
+objectclass: top
+objectclass: person
+objectclass: organizationalPerson
+objectclass: inetOrgPerson
+cn: Piet Baardmans
+gn: Piet
+sn: Baardmans
+uid: piet
+userPassword: password
+mail: piet@kaapvaarders.com
+sAMAccountName: piet007
+# NOTE: bidirectional relation between GROUP and USER
+memberOf: cn=g-domain-kaapvaarders-admin,ou=groups,dc=kaapvaarders,dc=com
+memberOf: cn=g-domain-kaapvaarders-viewers,ou=groups,dc=kaapvaarders,dc=com
+
+dn: uid=joris,ou=people,dc=kaapvaarders,dc=com
+objectclass: top
+objectclass: person
+objectclass: organizationalPerson
+objectclass: inetOrgPerson
+cn: Joris Kaapvaerder
+gn: Joris
+sn: Kaapvaerder
+uid: joris
+mail: joris@kaapvaarders.com
+userPassword: password
+sAMAccountName: joris666
+# NOTE: bidirectional relation between GROUP and USER
+memberOf: cn=g-domain-kaapvaarders-admin,ou=groups,dc=kaapvaarders,dc=com
+memberOf: cn=g-domain-kaapvaarders-viewers,ou=groups,dc=kaapvaarders,dc=com
+
+dn: uid=other,ou=people,dc=kaapvaarders,dc=com
+objectclass: top
+objectclass: person
+objectclass: organizationalPerson
+objectclass: inetOrgPerson
+cn: Other Anonymous
+gn: Other
+sn: Anonymous
+uid: other
+userPassword: password
+sAMAccountName: other000
+memberOf: cn=g-other-user,ou=groups,dc=kaapvaarders,dc=com
+
+# GROUPS
+
+dn: uid=admin,ou=people,dc=kaapvaarders,dc=com
+objectclass: top
+objectclass: person
+objectclass: organizationalPerson
+objectclass: inetOrgPerson
+cn: Admin Nimda
+sn: Nimda
+uid: admin
+userPassword: admin
+sAMAccountName: admin
+
+dn: cn=g-domain-kaapvaarders-admin,ou=groups,dc=kaapvaarders,dc=com
+objectClass: posixGroup
+objectClass: groupOfNames
+objectClass: top
+cn: g-kaapvaarders-admin
+gidNumber: 1001
+# NOTE: bidirectional relation between GROUP and USER
+member: uid=jan,ou=people,dc=kaapvaarders,dc=com
+member: uid=piet,ou=people,dc=kaapvaarders,dc=com
+member: uid=joris,ou=people,dc=kaapvaarders,dc=com
+
+dn: cn=g-domain-kaapvaarders-viewers,ou=groups,dc=kaapvaarders,dc=com
+objectClass: posixGroup
+objectClass: groupOfNames
+objectClass: top
+cn: g-kaapvaarders-viewers
+gidNumber: 1002
+# NOTE: bidirectional relation between GROUP and USER
+member: uid=jan,ou=people,dc=kaapvaarders,dc=com
+member: uid=piet,ou=people,dc=kaapvaarders,dc=com
+member: uid=joris,ou=people,dc=kaapvaarders,dc=com
+
+dn: cn=g-other-user,ou=groups,dc=kaapvaarders,dc=com
+objectClass: posixGroup
+objectClass: groupOfNames
+objectClass: top
+cn: g-other-user
+gidNumber: 2001
+member: uid=other,ou=people,dc=kaapvaarders,dc=com

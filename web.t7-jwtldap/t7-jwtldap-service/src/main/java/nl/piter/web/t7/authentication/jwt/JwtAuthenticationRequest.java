@@ -1,0 +1,43 @@
+/* (C) 2017-2023 Piter.NL
+ * Use of this code allowed under restrictions. See LICENSE.txt for details.
+ */
+package nl.piter.web.t7.authentication.jwt;
+
+import java.io.Serializable;
+
+/**
+ * Authentication Request DTO.
+ * <pre>
+ *     JSON: {"username":"&lt;UserName&gt;","password":"&lt;PassWord&gt;}
+ * </pre>
+ */
+public class JwtAuthenticationRequest implements Serializable {
+
+    private String username;
+    private String password;
+
+    public JwtAuthenticationRequest() {
+        super();
+    }
+
+    public JwtAuthenticationRequest(String username, String password) {
+        this.setUsername(username);
+        this.setPassword(password);
+    }
+
+    public String getUsername() {
+        return this.username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getPassword() {
+        return this.password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+}
