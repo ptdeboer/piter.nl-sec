@@ -5,9 +5,9 @@ Info
 ---
 Example combining Jason Web Tokens (JWT) using LDAP and stored User Roles from DB.
 
-- Use LDAP for *Authentication*.
-- Query LDPA for SSO (LDAP) Memberships and (LDAP) Roles.
-- Resolve Memberships and Roles against local *Authorization* DB.
+- Uses LDAP for *Authentication*.
+- Query LDAP for SSO (LDAP) memberships and (LDAP) roles.
+- Resolve memberships and roles against local *Authorization* DB.
 
 Dev
 ---
