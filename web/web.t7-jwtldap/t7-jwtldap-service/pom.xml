@@ -146,7 +146,6 @@
         <dependency>
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
-            <version>1.4.200</version>
             <!-- support for IGNORE -->
             <!-- <version>1.4.197</version> -->
             <!-- Not if h2 WebServlet is used: <scope>runtime</scope> -->

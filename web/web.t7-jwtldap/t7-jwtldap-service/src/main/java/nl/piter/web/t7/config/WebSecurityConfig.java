@@ -71,13 +71,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                     // DEMO: Allow X-Frames for h2-console!
                     .headers().frameOptions().disable().and()
                     .authorizeRequests()
-                    // DEMO ONLY
-                    .antMatchers("/h2-console/**").permitAll()
                     // public info:
                     .antMatchers("/ping").permitAll()
                     .antMatchers("/info/**").permitAll()
                     .antMatchers("/login/**").permitAll()
                     // Make sure to protect used REST apis:
+                    // Demo interface, but restrict access:
+                    .antMatchers("/h2-console/**").authenticated()
                     .antMatchers("/api/**").authenticated()
                     .antMatchers("/data/**").authenticated()
                     // Allow static webpage, but only at toplevel (non-recursive) !
