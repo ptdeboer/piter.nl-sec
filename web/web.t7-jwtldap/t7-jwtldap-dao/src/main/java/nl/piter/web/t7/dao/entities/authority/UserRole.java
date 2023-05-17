@@ -21,7 +21,7 @@ import java.util.List;
 @ToString
 @Builder
 @AllArgsConstructor
-@Table(name = "user_roles")
+@Table(name = "USER_ROLES")
 public class UserRole {
 
     @Id

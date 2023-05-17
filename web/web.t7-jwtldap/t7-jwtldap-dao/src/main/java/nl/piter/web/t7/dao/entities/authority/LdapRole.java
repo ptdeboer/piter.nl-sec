@@ -24,7 +24,7 @@ import java.util.List;
 @ToString
 @Builder
 @AllArgsConstructor
-@Table(name = "ldap_roles")
+@Table(name = "LDAP_ROLES")
 public class LdapRole {
 
     @Id

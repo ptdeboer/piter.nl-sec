@@ -16,7 +16,7 @@ import javax.validation.constraints.NotNull;
  */
 @Entity
 @Builder
-@Table(name = "authorities")
+@Table(name = "AUTHORITIES")
 @AllArgsConstructor
 public class Authority {
 
