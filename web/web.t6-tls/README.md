@@ -12,7 +12,7 @@ Versions
 ---
 
 - Java 11
-- Spring Boot 2.5.14
+- Spring Boot 2.7.13
 
 Build
 ---
@@ -22,7 +22,7 @@ Build
 Service
 ---
 
-Spring Boot micro service example using Spring TLS (ssl) configuration.
+Spring Boot micro-service example using Spring TLS (ssl) configuration.
 
 Start using maven:
 
