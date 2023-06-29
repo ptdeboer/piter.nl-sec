@@ -11,8 +11,8 @@ Modules:
 Versions
 ---
 
-- Java 11
-- Spring Boot 2.7.13
+- Java 17
+- Spring Boot 3.0.8
 
 Build
 ---

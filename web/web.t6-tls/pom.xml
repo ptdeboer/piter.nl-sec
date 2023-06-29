@@ -10,7 +10,7 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <spring-boot.version>2.7.13</spring-boot.version>
+        <spring-boot.version>3.0.8</spring-boot.version>
     </properties>
 
     <modules>
@@ -27,7 +27,7 @@
                     <artifactId>maven-compiler-plugin</artifactId>
                     <version>3.8.1</version>
                     <configuration>
-                        <release>11</release>
+                        <release>17</release>
                     </configuration>
                 </plugin>
                 <plugin>
