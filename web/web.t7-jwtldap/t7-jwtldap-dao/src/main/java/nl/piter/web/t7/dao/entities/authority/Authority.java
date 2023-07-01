@@ -3,11 +3,10 @@
  */
 package nl.piter.web.t7.dao.entities.authority;
 
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-
-import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 
 /**
  * Granted (Role) Authorities, for example "EDITOR" or "ADMIN".

@@ -13,10 +13,10 @@ import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 /**
@@ -25,7 +25,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true)
-public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+public class WebSecurityConfig {
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -59,8 +59,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 //    }
 
 
-    @Override
-    protected void configure(HttpSecurity httpSecurity) {
+    @Bean
+    public SecurityFilterChain filterChain(HttpSecurity httpSecurity) {
         try {
             httpSecurity
                     // No CSRF because JWT tokes are invulnerable.
@@ -72,17 +72,17 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                     .headers().frameOptions().disable().and()
                     .authorizeRequests()
                     // public info:
-                    .antMatchers("/ping").permitAll()
-                    .antMatchers("/info/**").permitAll()
-                    .antMatchers("/login/**").permitAll()
+                    .requestMatchers("/ping").permitAll()
+                    .requestMatchers("/info/**").permitAll()
+                    .requestMatchers("/login/**").permitAll()
                     // Make sure to protect used REST apis:
                     // Demo interface, but restrict access:
-                    .antMatchers("/h2-console/**").authenticated()
-                    .antMatchers("/api/**").authenticated()
-                    .antMatchers("/data/**").authenticated()
+                    .requestMatchers("/h2-console/**").authenticated()
+                    .requestMatchers("/api/**").authenticated()
+                    .requestMatchers("/data/**").authenticated()
                     // Allow static webpage, but only at toplevel (non-recursive) !
-                    .antMatchers("/*").permitAll()
-                    .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+                    .requestMatchers("/*").permitAll()
+                    .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                     .anyRequest().authenticated();
 
             // Custom JWT based authentication filter
@@ -90,6 +90,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
             // Disable page caching
             httpSecurity.headers().cacheControl();
+
+            return httpSecurity.build();
         } catch (Exception e) {
             throw new ServiceException(e.getMessage(), e);
         }

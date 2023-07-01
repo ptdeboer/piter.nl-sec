@@ -3,9 +3,8 @@
  */
 package nl.piter.web.t7.dao.entities.domain;
 
+import jakarta.persistence.*;
 import lombok.*;
-
-import javax.persistence.*;
 
 /**
  * Domain entities are directly exposed through the REST api.

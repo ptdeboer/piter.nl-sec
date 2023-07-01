@@ -3,7 +3,7 @@
  */
 package nl.piter.web.t7.dao;
 
-import lombok.extern.slf4j.Slf4j;
+import jakarta.transaction.Transactional;
 import nl.piter.web.t7.dao.entities.authority.Authority;
 import nl.piter.web.t7.dao.entities.authority.User;
 import org.junit.Test;
@@ -13,12 +13,11 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import javax.transaction.Transactional;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
 
 /**

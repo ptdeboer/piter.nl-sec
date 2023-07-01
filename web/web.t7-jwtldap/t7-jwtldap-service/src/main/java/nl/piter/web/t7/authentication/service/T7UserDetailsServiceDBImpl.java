@@ -4,6 +4,7 @@
 package nl.piter.web.t7.authentication.service;
 
 import com.google.common.base.Strings;
+import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 import nl.piter.web.t7.authentication.user.T7AppUser;
 import nl.piter.web.t7.authentication.user.T7AppUserMapper;
@@ -15,7 +16,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;

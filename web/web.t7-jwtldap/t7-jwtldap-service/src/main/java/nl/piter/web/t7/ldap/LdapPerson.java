@@ -3,9 +3,9 @@
  */
 package nl.piter.web.t7.ldap;
 
+import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
 
-import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
