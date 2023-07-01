@@ -10,7 +10,7 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <spring.boot.version>2.5.11</spring.boot.version>
+        <spring.boot.version>2.7.13</spring.boot.version>
         <app.build.timestamp>${maven.build.timestamp}</app.build.timestamp>
         <maven.build.timestamp.format>yyyy-MM-dd HH:mm:ss.SSS</maven.build.timestamp.format>
     </properties>
