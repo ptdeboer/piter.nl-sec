@@ -1,7 +1,7 @@
 API
 ===
 
-API examples 
+API examples
 
 JSON Web Tokens
 --- 
@@ -43,6 +43,7 @@ or:
 
 user info
 ---
+
     export TOKEN_HEADER="Authorization: Bearer ${TOKEN}"
 
     curl -X GET -H "${TOKEN_HEADER}" http://localhost:9001/user ; echo
@@ -55,7 +56,7 @@ user info
 
     curl -X GET -H "${TOKEN_HEADER}" http://localhost:9001/user/ldap/roles ; echo
 
-Note that local 'admin' example doesn't have roles nor ldap memberships. 
+Note that local 'admin' example doesn't have roles nor ldap memberships.
 
 User db
 ---
@@ -84,7 +85,7 @@ List created resources and format output:
 
     ID=1
     curl -X GET -H "${TOKEN_HEADER}" http://localhost:9001/data/ships | python -m json.tool  
-     
+
 Updated existing domain object using PUT:
 
     ID=1
@@ -96,7 +97,6 @@ Delete:
     ID=1
     curl -X DELETE -H "${TOKEN_HEADER}" "http://localhost:9001/data/ships/{$}" ; echo 
 
-
 other
 ---
 Authenticate user 'other' to test *authenticated* but *unauthorised* access: 403 Forbidden.
@@ -106,5 +106,5 @@ Authenticate user 'other' to test *authenticated* but *unauthorised* access: 403
      --header 'content-type: application/json' \
      --data '{"username": "other", "password": "password"}'
 
-When the 'other' account is used to access the domain data, using the REST examples above, 
+When the 'other' account is used to access the domain data, using the REST examples above,
 an 403 error should return.

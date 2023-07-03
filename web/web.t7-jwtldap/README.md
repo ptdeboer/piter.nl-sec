@@ -12,12 +12,13 @@ Example combining Jason Web Tokens (JWT) using LDAP and stored User Roles from D
 Dev
 ---
 Architecture:
-- SpringBoot 2.5.11.
-- Java 11.
+
+- SpringBoot 3.1.1.
+- Java 17.
 - Uses In memory 'h2' database for demo purposes only.
 - JWT 0.10.8.
 - Testing LDAP server from unboundid-ldapsdk.
- 
+
 Build
 ---
 
@@ -26,7 +27,7 @@ Build
 Service
 --- 
 Start service:
-     
+
     java -jar t7-jwtldap-service/target/t7-jwtldap-service-0.1.0-SNAPSHOT-exec.jar
 
 API

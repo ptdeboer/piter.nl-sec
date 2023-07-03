@@ -63,33 +63,34 @@ public class WebSecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity httpSecurity) {
         try {
             httpSecurity
-                    // No CSRF because JWT tokes are invulnerable.
-                    .csrf().disable()
-                    .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
-                    // Don't create session(s)!
-                    .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
-                    // DEMO: Allow X-Frames for h2-console!
-                    .headers().frameOptions().disable().and()
-                    .authorizeRequests()
-                    // public info:
-                    .requestMatchers("/ping").permitAll()
-                    .requestMatchers("/info/**").permitAll()
-                    .requestMatchers("/login/**").permitAll()
-                    // Make sure to protect used REST apis:
-                    // Demo interface, but restrict access:
-                    .requestMatchers("/h2-console/**").authenticated()
-                    .requestMatchers("/api/**").authenticated()
-                    .requestMatchers("/data/**").authenticated()
-                    // Allow static webpage, but only at toplevel (non-recursive) !
-                    .requestMatchers("/*").permitAll()
-                    .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-                    .anyRequest().authenticated();
+                    // No CSRF because (non cookie) JWT tokes are invulnerable.
+                    .csrf((csrf) -> csrf.disable())
+                    .exceptionHandling((handling) -> handling.authenticationEntryPoint(unauthorizedHandler))
+                    // Default to stateless (no sessions).
+                    .sessionManagement((session) -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                    // DEMO: To allow X-Frames for h2-console: disable frame options.
+                    .headers((headers) -> headers.frameOptions(frameOptionsConfig -> frameOptionsConfig.disable()))
+                    .authorizeHttpRequests((authorize) -> authorize
+                            // public info:
+                            .requestMatchers("/ping").permitAll()
+                            .requestMatchers("/info/**").permitAll()
+                            .requestMatchers("/login/**").permitAll()
+                            // Make sure to protect used REST apis:
+                            // DEMO: h2 interface, but restrict access:
+                            .requestMatchers("/h2-console/**").authenticated()
+                            .requestMatchers("/api/**").authenticated()
+                            .requestMatchers("/data/**").authenticated()
+                            // Allow static webpage, but only at top-level (non-recursive) !
+                            .requestMatchers("/*").permitAll()
+                            .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+                            .anyRequest().authenticated()
+                    );
 
             // Custom JWT based authentication filter
             httpSecurity.addFilterBefore(jwtAuthenticationTokenFilter, UsernamePasswordAuthenticationFilter.class);
 
-            // Disable page caching
-            httpSecurity.headers().cacheControl();
+            // Disable page caching, slightly slower, but more secure:
+            httpSecurity.headers((headers) -> headers.cacheControl((cache) -> cache.disable()));
 
             return httpSecurity.build();
         } catch (Exception e) {

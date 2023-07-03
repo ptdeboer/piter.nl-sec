@@ -118,7 +118,7 @@ public class T7AuthenticationService {
             grantedAuthorities = userDetails.getAuthorities();
             log.debug(" - num granted authorities:{}", grantedAuthorities.size());
             for (GrantedAuthority auth : grantedAuthorities) {
-                log.debug(" - granted authorities:{}" + auth.getAuthority());
+                log.debug(" - granted authorities:{}", auth.getAuthority());
             }
         }
 
@@ -131,8 +131,7 @@ public class T7AuthenticationService {
         // Important: make sure GrantedAuthority implementation is comparable.
         Set<GrantedAuthority> mergedAuthorities = new HashSet<>();
         if (grantedAuthorities != null) {
-            grantedAuthorities.stream()
-                    .forEach(mergedAuthorities::add);
+            mergedAuthorities.addAll(grantedAuthorities);
         }
 
         // Note: Using custom LDAP Client to get actual LDAP properties. This bypasses Spring.

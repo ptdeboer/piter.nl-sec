@@ -85,7 +85,7 @@ public class ShipDataController {
 
     @DeleteMapping(value = "/{id}")
     public void deleteShip(@PathVariable(value = "id") Long id) {
-        log.debug("deleteShip():id='{}'");
+        log.debug("deleteShip():id='{}'",id);
         this.shipService.delete(id);
     }
 

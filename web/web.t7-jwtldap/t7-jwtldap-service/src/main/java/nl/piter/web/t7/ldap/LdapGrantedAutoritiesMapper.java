@@ -20,7 +20,7 @@ public class LdapGrantedAutoritiesMapper implements GrantedAuthoritiesMapper {
         //Todo:
         log.debug("mapAuthorities():Number of granted ldap authorities:{}", ldapAuths.size());
         for (GrantedAuthority auth : ldapAuths) {
-            log.debug("mapAuthorities(): - ldap granted authority:{}" + auth.getAuthority());
+            log.debug("mapAuthorities(): - ldap granted authority:{}",auth.getAuthority());
         }
         return ldapAuths;
     }

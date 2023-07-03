@@ -44,12 +44,12 @@ public class SimpleDaoSpringIT {
         // check test db has proper authorities.
         List<Authority> auths = userDao.listAuthorities();
         List<String> authNames = auths.stream().map(Authority::getAuthorityName).collect(Collectors.toList());
-        assertThat(authNames).containsAll(Arrays.asList("ADMIN","VIEWER","KVAARDER_ADMIN","KVAARDER_EDITOR","KVAARDER_VIEWER"));
+        assertThat(authNames).containsAll(Arrays.asList("ADMIN", "VIEWER", "KVAARDER_ADMIN", "KVAARDER_EDITOR", "KVAARDER_VIEWER"));
     }
 
     @Test
     public void saveAndRetrieveUser() {
-        User user= User.builder()
+        User user = User.builder()
                 .id(null) // no id -> autogenerate(!).
                 .username("Dummy")
                 .fullname("Crash Test  Dummy")

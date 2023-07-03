@@ -93,8 +93,9 @@ public class WebAppFT {
         ResponseEntity<String> rolesResponse = restTemplate.exchange(getServiceUrl() + "/" + urlPath,
                 HttpMethod.GET,
                 entity,
-                new ParameterizedTypeReference<>() {}
-                );
+                new ParameterizedTypeReference<>() {
+                }
+        );
         // Response:
         String pong = rolesResponse.getBody();
         log.debug("Info: {}", pong);
@@ -111,8 +112,9 @@ public class WebAppFT {
         ResponseEntity<WebAppInfo> rolesResponse = restTemplate.exchange(getServiceUrl() + "/" + urlPath,
                 HttpMethod.GET,
                 entity,
-                new ParameterizedTypeReference<>() {}
-                );
+                new ParameterizedTypeReference<>() {
+                }
+        );
         // Response:
         WebAppInfo info = rolesResponse.getBody();
         log.debug("Info: {}", info);
@@ -134,8 +136,9 @@ public class WebAppFT {
         ResponseEntity<List<String>> rolesResponse = restTemplate.exchange(getServiceUrl() + "/" + urlPath,
                 HttpMethod.GET,
                 entity,
-                new ParameterizedTypeReference<>() {}
-                );
+                new ParameterizedTypeReference<>() {
+                }
+        );
         // Response:
         List<String> autorities = rolesResponse.getBody();
         log.debug("User Granted Authorities: {}", autorities);
@@ -162,8 +165,9 @@ public class WebAppFT {
         ResponseEntity<List<String>> rolesResponse = restTemplate.exchange(getServiceUrl() + "/" + urlPath,
                 HttpMethod.GET,
                 entity,
-                new ParameterizedTypeReference<>() {}
-                );
+                new ParameterizedTypeReference<>() {
+                }
+        );
 
         // Response:
         List<String> roles = rolesResponse.getBody();
@@ -188,7 +192,8 @@ public class WebAppFT {
         ResponseEntity<List<String>> rolesResponse = restTemplate.exchange(getServiceUrl() + "/" + urlPath,
                 HttpMethod.GET,
                 entity,
-                new ParameterizedTypeReference<>() {});
+                new ParameterizedTypeReference<>() {
+                });
         // Response:
         List<String> auths = rolesResponse.getBody();
         log.debug("Local User (admin) Authorities={}", auths);
@@ -217,7 +222,7 @@ public class WebAppFT {
         JwtToken token = tokenRepsponse.getBody();
         log.debug("Token: {}", token);
         assertThat(token).isNotNull();
-        assertThat(token).isNotEqualTo("");
+        assertThat(token.token).isNotEqualTo("");
         return token;
     }
 
