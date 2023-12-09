@@ -11,8 +11,9 @@ Modules:
 Versions
 ---
 
-- Java 17
-- Spring Boot 3.0.8
+- Java 17, 21
+- Spring Boot 3.1.4
+- Apache HTTPClient 5
 
 Build
 ---

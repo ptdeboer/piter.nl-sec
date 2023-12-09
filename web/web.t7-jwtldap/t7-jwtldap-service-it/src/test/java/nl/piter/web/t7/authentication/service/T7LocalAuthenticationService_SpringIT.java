@@ -4,7 +4,7 @@
 package nl.piter.web.t7.authentication.service;
 
 import lombok.extern.slf4j.Slf4j;
-import nl.piter.web.t7.WebApp;
+import nl.piter.web.t7.WebAppT7;
 import nl.piter.web.t7.ldap.LdapAccountType;
 import org.junit.Assert;
 import org.junit.Test;
@@ -33,7 +33,7 @@ import static org.junit.Assert.assertTrue;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ActiveProfiles("ittest") // use application-ittest.properties
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_CLASS) // for data.sql initialization
-@SpringBootTest(classes = {WebApp.class}, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@SpringBootTest(classes = {WebAppT7.class}, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class T7LocalAuthenticationService_SpringIT {
 
     @Autowired

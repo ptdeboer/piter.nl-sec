@@ -1,6 +1,6 @@
 #!/bin/bash
-#
-# Scrip to test the REST api
+##
+# Script to test the REST api.
 #
 
 log() { 

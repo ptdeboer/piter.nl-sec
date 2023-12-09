@@ -32,7 +32,7 @@ import static nl.piter.web.t7.config.JwtConfig.BEARER_PREFIX_WHITESPACE;
  * a boolean in case of invalid credentials i.s.o throw an (unchecked) JwtException.
  */
 @Slf4j
-public class JwtTokenUtil implements Serializable {
+public class JwtTokenUtil {
 
     private final JwtConfig jwtConfig;
     private final Key secretKey;

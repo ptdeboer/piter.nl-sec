@@ -9,13 +9,13 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * Entry point for SpringBoot application.
  */
 @SpringBootApplication
-public class T6App {
+public class WebAppT6 {
 
     /**
      * Method initializes and starts SpringBoot application.
      */
     public static void main(String[] args) {
-        SpringApplication.run(T6App.class, args);
+        SpringApplication.run(WebAppT6.class, args);
     }
 
 }

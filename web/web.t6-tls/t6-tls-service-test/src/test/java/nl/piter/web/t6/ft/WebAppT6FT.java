@@ -18,9 +18,10 @@ import static org.junit.jupiter.api.Assertions.fail;
 /**
  * Functional Testing with Application Starter.
  * Clean starter: No integrated SpringRunner context magic.
+ * The SpringBoot service is started as a background process using @BeforeAll.
  */
 @Slf4j
-public class T6AppFT {
+public class WebAppT6FT {
 
     private static int servicePort;
 

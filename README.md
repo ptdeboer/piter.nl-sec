@@ -14,10 +14,10 @@ PKI utils and scripts:
 
 See pki-demo how to setup your own PKI with custom Root CA, Intermediate CA.
 
-Web TLS
+Web TLS (ssl-ma)
 ---
 
-Spring Boot examples:
+Spring Boot example how to use ssl-ma between two microservices.
 
 - web/web.t6-tls => nl.piter.web:web.t6-tls
 

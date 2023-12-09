@@ -2,7 +2,7 @@
 //
 package nl.piter.web.t6.ft;
 
-import nl.piter.web.t6.T6App;
+import nl.piter.web.t6.WebAppT6;
 import org.springframework.boot.SpringApplication;
 import org.springframework.context.ConfigurableApplicationContext;
 
@@ -15,7 +15,7 @@ public class T6AppStarter {
     }
 
     public void startWithProfiles(String[] profiles, String[] args) {
-        SpringApplication app = new SpringApplication(T6App.class);
+        SpringApplication app = new SpringApplication(WebAppT6.class);
         if (profiles != null) {
             app.setAdditionalProfiles(profiles);
         }

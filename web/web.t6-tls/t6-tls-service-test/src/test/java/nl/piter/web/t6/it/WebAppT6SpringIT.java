@@ -3,8 +3,8 @@
 package nl.piter.web.t6.it;
 
 import lombok.extern.slf4j.Slf4j;
-import nl.piter.web.t6.T6App;
 import nl.piter.web.t6.TestUtil;
+import nl.piter.web.t6.WebAppT6;
 import nl.piter.web.t6.controller.rest.DomainInfo;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -24,10 +24,10 @@ import static org.junit.jupiter.api.Assertions.fail;
  * Integration test with Spring JUnit5 Runner.
  */
 @Slf4j
-@ExtendWith(SpringExtension.class)
+@ExtendWith(SpringExtension.class) // JUnit 5
 @ActiveProfiles("ittest") // use application-ittest.properties
-@SpringBootTest(classes = {T6App.class}, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class T6AppSpringIT {
+@SpringBootTest(classes = {WebAppT6.class}, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+public class WebAppT6SpringIT {
 
     @BeforeAll
     public static void startT6() {
