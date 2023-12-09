@@ -6,22 +6,17 @@ import io.cucumber.java.en.When;
 import lombok.extern.slf4j.Slf4j;
 
 import nl.piter.web.t7.cucumber.SpringIntegrationTest;
-import nl.piter.web.t7.cucumber.config.WebAppT7TestConfig;
 import nl.piter.web.t7.cucumber.util.RestClient;
 import nl.piter.web.t7.cucumber.util.jwt.JwtTestToken;
 import nl.piter.web.t7.cucumber.util.jwt.JwtTestTokenUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
 
 import java.util.HashMap;
 import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-//@Component
-//@Scope(SCOPE_CUCUMBER_GLUE)
 @Slf4j
-@ContextConfiguration(classes = {WebAppT7TestConfig.class})
 public class MainStepDefinitions extends SpringIntegrationTest {
 
     @Autowired
@@ -78,6 +73,7 @@ public class MainStepDefinitions extends SpringIntegrationTest {
     }
 
     @Then("the JWT token user name must be {string}")
+    @Then("the JWT token subject must be {string}")
     public void the_jwt_token_user_name_must_be(String name) {
         String tokenName=tokenUtil().getUsernameFromToken(restClient.getJwtToken().token);
         assertThat(tokenName).isEqualTo(name);
