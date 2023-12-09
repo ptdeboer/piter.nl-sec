@@ -10,13 +10,13 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * Entry point to SpringBoot application.
  */
 @SpringBootApplication
-public class WebApp {
+public class WebAppT7 {
 
     /**
      * Method initializes and starts SpringBoot application
      */
     public static void main(String[] args) {
-        SpringApplication.run(WebApp.class, args);
+        SpringApplication.run(WebAppT7.class, args);
     }
 
 }

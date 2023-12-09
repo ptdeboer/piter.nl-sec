@@ -18,7 +18,6 @@ import org.apache.hc.core5.pool.PoolConcurrencyPolicy;
 import org.apache.hc.core5.pool.PoolReusePolicy;
 import org.apache.hc.core5.ssl.SSLContextBuilder;
 import org.apache.hc.core5.util.Timeout;
-import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.util.ResourceUtils;
@@ -98,7 +97,7 @@ public class TestClient {
         SSLContext sslContext = SSLContextBuilder.create()
                 .loadKeyMaterial(keyStore, password.toCharArray())
                 .loadTrustMaterial(truststoreUrl, password.toCharArray())
-                .setProtocol(SSLConnectionSocketFactory.TLS)
+                .setProtocol("TLS")
                 .build();
         //
         HostnameVerifier hostnameVerifier = new NoopHostnameVerifier();
