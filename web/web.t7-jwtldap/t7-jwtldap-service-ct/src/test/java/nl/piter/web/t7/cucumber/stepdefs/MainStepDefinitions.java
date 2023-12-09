@@ -6,24 +6,20 @@ import io.cucumber.java.en.When;
 import lombok.extern.slf4j.Slf4j;
 
 import nl.piter.web.t7.cucumber.SpringIntegrationTest;
-import nl.piter.web.t7.cucumber.config.WebAppT7TestConfig;
 import nl.piter.web.t7.cucumber.util.RestClient;
 import nl.piter.web.t7.cucumber.util.jwt.JwtTestToken;
 import nl.piter.web.t7.cucumber.util.jwt.JwtTestTokenUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
 
 import java.util.HashMap;
 import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-//@Component
-//@Scope(SCOPE_CUCUMBER_GLUE)
 @Slf4j
-@ContextConfiguration(classes = {WebAppT7TestConfig.class})
 public class MainStepDefinitions extends SpringIntegrationTest {
 
+    // Shared StateFull client //
     @Autowired
     private RestClient restClient;
 
@@ -48,9 +44,9 @@ public class MainStepDefinitions extends SpringIntegrationTest {
 
     @Then("the JWT token must be valid")
     public void the_jwt_token_must_be_valid() {
+        restClient.assertNoError();
         JwtTestToken token = this.restClient.getJwtToken();
         log.debug("the_jwt_token_must_be_valid(): token={}",token);
-        restClient.assertNoError();
         assertThat(jwtTestTokenUtil.isValid(token.token)).isTrue();
     }
 
@@ -58,7 +54,6 @@ public class MainStepDefinitions extends SpringIntegrationTest {
     public void the_response_should_be_http_ok(Integer expected) {
         int httpStatus = restClient.getLastHttpStatusCode().value();
         log.debug("the_response_should_be_http_ok(): expecting:{} == {}", expected, httpStatus);
-        restClient.assertNoError();
         assertThat(httpStatus).isEqualTo(expected);
     }
 
@@ -66,7 +61,6 @@ public class MainStepDefinitions extends SpringIntegrationTest {
     public void the_response_should_be_string(String expected) {
         String responseValue = restClient.getLastResponse().getBody().toString();
         log.debug("the_response_should_be_string(): expecting:'{}' == '{}'", expected, responseValue);
-        restClient.assertNoError();
         assertThat(responseValue).isEqualTo(expected);
     }
 
@@ -78,8 +72,10 @@ public class MainStepDefinitions extends SpringIntegrationTest {
     }
 
     @Then("the JWT token user name must be {string}")
-    public void the_jwt_token_user_name_must_be(String name) {
+    @Then("the JWT token subject must be {string}")
+    public void the_jwt_token_subject_must_be(String name) {
         String tokenName=tokenUtil().getUsernameFromToken(restClient.getJwtToken().token);
+        log.debug("the_jwt_token_subject_must_be(): expecting:'{}' == '{}'", name, tokenName);
         assertThat(tokenName).isEqualTo(name);
     }
 

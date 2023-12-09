@@ -16,7 +16,7 @@ import java.util.Collections;
 import java.util.Map;
 
 /**
- * Simple stateful REST client used for testing.
+ * Stateful REST client used for testing.
  * Also handles JWT Token authentication and REST errors.
  */
 @Slf4j
@@ -38,6 +38,7 @@ public class RestClient {
     public RestClient(RestTemplate restTemplate, String url) {
         this.restTemplate = restTemplate;
         this.serviceUrl=url;
+        log.debug("<<< New RestClient() >>>"); // should be created each scenario.
     }
 
     public boolean hasError() {
@@ -107,7 +108,7 @@ public class RestClient {
             this.lastResponse = response;
             return response.getBody();
         } catch (RestClientException e) {
-            // keep error state
+            // keep error state, return null
             handle(e, false);
             return null;
         }
@@ -184,7 +185,7 @@ public class RestClient {
      */
     protected void handle(RestClientException exception, boolean rethrow) {
 //        log.error("RestClientException: {}", exception.getMessage(),exception);
-        log.info("handle(): RestClientException: {}", exception.getMessage());
+        log.error("handle(): RestClientException: {}", exception.getMessage());
 
         // Update (error) status, and clear previous response.
         this.lastErrorStatusCode=null;
