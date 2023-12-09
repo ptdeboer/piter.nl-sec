@@ -3,7 +3,7 @@
  */
 package nl.piter.web.t7.ft;
 
-import nl.piter.web.t7.WebApp;
+import nl.piter.web.t7.WebAppT7;
 import org.springframework.boot.SpringApplication;
 import org.springframework.context.ConfigurableApplicationContext;
 
@@ -19,7 +19,7 @@ public class WebAppStarter {
     }
 
     public void startWithProfiles(String[] profiles, String[] args) {
-        SpringApplication app = new SpringApplication(WebApp.class);
+        SpringApplication app = new SpringApplication(WebAppT7.class);
         if (profiles != null) {
             app.setAdditionalProfiles(profiles);
         }

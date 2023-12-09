@@ -5,7 +5,7 @@ package nl.piter.web.t7.authentication.service;
 
 import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
-import nl.piter.web.t7.WebApp;
+import nl.piter.web.t7.WebAppT7;
 import nl.piter.web.t7.ldap.LdapAccountType;
 import org.junit.Assert;
 import org.junit.Test;
@@ -36,7 +36,7 @@ import static org.junit.Assert.assertTrue;
 @Transactional() // lazy initalization of authorities
 @ActiveProfiles("ittest-ldap-sam") // use application-ittest-ldap-sam.properties
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_CLASS) // for data.sql initialization
-@SpringBootTest(classes = {WebApp.class}, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@SpringBootTest(classes = {WebAppT7.class}, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class T7LdapAuthenticationServiceSAM_SpringIT {
 
     /**

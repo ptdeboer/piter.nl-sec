@@ -4,7 +4,7 @@
 package nl.piter.web.t7.ldap;
 
 import lombok.extern.slf4j.Slf4j;
-import nl.piter.web.t7.WebApp;
+import nl.piter.web.t7.WebAppT7;
 import nl.piter.web.t7.config.LdapConfig;
 import org.junit.Before;
 import org.junit.Test;
@@ -28,7 +28,7 @@ import static org.junit.Assert.*;
 @RunWith(SpringRunner.class)
 @ActiveProfiles("ittest-ldap-sam") // Use application-ittest-ldap-sam.properties
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_CLASS) // for data.sql initialization
-@SpringBootTest(classes = {WebApp.class}, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@SpringBootTest(classes = {WebAppT7.class}, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class LdapClientSAM_SpringIT {
 
     @Autowired
