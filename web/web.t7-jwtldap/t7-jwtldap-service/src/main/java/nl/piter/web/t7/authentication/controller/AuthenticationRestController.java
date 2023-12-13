@@ -1,6 +1,9 @@
 /* (C) 2017-2023 Piter.NL
  * Use of this code allowed under restrictions. See LICENSE.txt for details.
  */
+/* (C) 2017-2023 Piter.NL
+ * Use of this code allowed under restrictions. See LICENSE.txt for details.
+ */
 package nl.piter.web.t7.authentication.controller;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -88,11 +91,10 @@ public class AuthenticationRestController {
         String authToken = (authTokenHeader != null) ? jwtTokenUtil.filterTokenFromHeader(authTokenHeader) : null;
 
         Object userDetailsObj = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        if (!(userDetailsObj instanceof UserDetails)) {
+        if (!(userDetailsObj instanceof UserDetails userDetails)) {
             log.warn("No UserDetails found. Principal Object = <{}>'{}'", userDetailsObj.getClass().getCanonicalName(), userDetailsObj);
             throw new IllegalStateException("Failed to validate UserCredentials");
         }
-        UserDetails userDetails = (UserDetails) userDetailsObj;
         if (!jwtTokenUtil.validateToken(authToken, userDetails)) {
             if (jwtTokenUtil.isTokenExpired(authToken)) {
                 throw new ServiceAuthenticationException("Credentials expired for user:" + userDetails.getUsername());

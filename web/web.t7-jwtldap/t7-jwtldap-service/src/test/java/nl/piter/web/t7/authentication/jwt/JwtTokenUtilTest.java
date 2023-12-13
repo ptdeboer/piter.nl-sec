@@ -1,6 +1,9 @@
 /* (C) 2017-2023 Piter.NL
  * Use of this code allowed under restrictions. See LICENSE.txt for details.
  */
+/* (C) 2017-2023 Piter.NL
+ * Use of this code allowed under restrictions. See LICENSE.txt for details.
+ */
 package nl.piter.web.t7.authentication.jwt;
 
 import io.jsonwebtoken.JwtException;
@@ -16,8 +19,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 @Slf4j
 public class JwtTokenUtilTest {
 
-    private static String bigSecret = "123456789abcdef01234567890abcdef";
-    private static String bigSecret2 = "X" + bigSecret;
+    private static final String bigSecret = "123456789abcdef01234567890abcdef";
+    private static final String bigSecret2 = "X" + bigSecret;
 
     @BeforeAll // is unit5 keyword
     public static void checkUnit5() {

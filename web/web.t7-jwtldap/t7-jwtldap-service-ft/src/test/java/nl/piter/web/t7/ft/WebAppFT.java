@@ -1,10 +1,14 @@
 /* (C) 2017-2023 Piter.NL
  * Use of this code allowed under restrictions. See LICENSE.txt for details.
  */
+/* (C) 2017-2023 Piter.NL
+ * Use of this code allowed under restrictions. See LICENSE.txt for details.
+ */
 package nl.piter.web.t7.ft;
 
 import lombok.ToString;
 import lombok.extern.slf4j.Slf4j;
+import nl.piter.web.t7.WebAppT7;
 import nl.piter.web.t7.service.WebAppInfo;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
@@ -49,7 +53,7 @@ public class WebAppFT {
 
     @BeforeAll // Jupiter Unit5 (!)
     public static void startWebApp() {
-        appStarter = new WebAppStarter();
+        appStarter = new WebAppStarter(WebAppT7.class);
         appStarter.startWithProfiles(new String[]{"fttest"}, new String[0]);
         // Update with port used for testing (could be random):
         servicePort = Integer.parseInt(appStarter.getApplicationContext().getEnvironment().getProperty("local.server.port"));

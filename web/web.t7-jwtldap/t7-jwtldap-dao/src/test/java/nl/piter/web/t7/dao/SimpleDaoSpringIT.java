@@ -1,6 +1,9 @@
 /* (C) 2017-2023 Piter.NL
  * Use of this code allowed under restrictions. See LICENSE.txt for details.
  */
+/* (C) 2017-2023 Piter.NL
+ * Use of this code allowed under restrictions. See LICENSE.txt for details.
+ */
 package nl.piter.web.t7.dao;
 
 import jakarta.transaction.Transactional;
@@ -35,7 +38,7 @@ public class SimpleDaoSpringIT {
 
     @Test
     public void usersRepositoryMustBeEmptyBeforeStart() {
-        List users = userDao.listUsers();
+        List<User> users = userDao.listUsers();
         assertEquals("Test database should be empty.", 0, users.size());
     }
 

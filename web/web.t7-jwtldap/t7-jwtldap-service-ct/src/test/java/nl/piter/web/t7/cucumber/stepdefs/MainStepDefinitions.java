@@ -1,10 +1,12 @@
+/* (C) 2017-2023 Piter.NL
+ * Use of this code allowed under restrictions. See LICENSE.txt for details.
+ */
 package nl.piter.web.t7.cucumber.stepdefs;
 
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import lombok.extern.slf4j.Slf4j;
-
 import nl.piter.web.t7.cucumber.SpringIntegrationTest;
 import nl.piter.web.t7.cucumber.util.RestClient;
 import nl.piter.web.t7.cucumber.util.jwt.JwtTestToken;
@@ -32,21 +34,21 @@ public class MainStepDefinitions extends SpringIntegrationTest {
     @When("I perform a simple GET call using url {string}")
     public void i_perform_a_simple_ping_call(String url) {
         String pong = this.restClient.doGetString(url);
-        log.debug("i_perform_a_simple_ping_call(): response={}",pong);
+        log.debug("i_perform_a_simple_ping_call(): response={}", pong);
     }
 
     @When("I request an JWT Token with user {string} and password {string} at url {string}")
     @Given("a valid JWT Token for user {string} with password {string} using authorization URL {string}")
     public void i_request_and_jwt_token_with_user_and_password_at_url(String user, String pwd, String url) {
         this.restClient.setAuthURl(url);
-        this.restClient.jwtAuthenticate(user,pwd);
+        this.restClient.jwtAuthenticate(user, pwd);
     }
 
     @Then("the JWT token must be valid")
     public void the_jwt_token_must_be_valid() {
         restClient.assertNoError();
         JwtTestToken token = this.restClient.getJwtToken();
-        log.debug("the_jwt_token_must_be_valid(): token={}",token);
+        log.debug("the_jwt_token_must_be_valid(): token={}", token);
         assertThat(jwtTestTokenUtil.isValid(token.token)).isTrue();
     }
 
@@ -67,21 +69,21 @@ public class MainStepDefinitions extends SpringIntegrationTest {
     @Then("the response should be http ERROR {int}")
     public void the_response_should_be_http_error(Integer httpErrorCode) {
         int statusCode = restClient.getLastErrorStatusCode().value();
-        log.debug("the_response_should_be_http_error(): (expected){} == {}", httpErrorCode,statusCode);
+        log.debug("the_response_should_be_http_error(): (expected){} == {}", httpErrorCode, statusCode);
         assertThat(statusCode).isEqualTo(httpErrorCode);
     }
 
     @Then("the JWT token user name must be {string}")
     @Then("the JWT token subject must be {string}")
     public void the_jwt_token_subject_must_be(String name) {
-        String tokenName=tokenUtil().getUsernameFromToken(restClient.getJwtToken().token);
+        String tokenName = tokenUtil().getUsernameFromToken(restClient.getJwtToken().token);
         log.debug("the_jwt_token_subject_must_be(): expecting:'{}' == '{}'", name, tokenName);
         assertThat(tokenName).isEqualTo(name);
     }
 
     @Then("print the JWT token to the INFO log.")
     public void print_the_jwt_token_to_the_info_log() {
-        log.info("print_the_jwt_token_to_the_info_log(): token={}",tokenUtil().toString(this.restClient.getJwtToken()));
+        log.info("print_the_jwt_token_to_the_info_log(): token={}", tokenUtil().toString(this.restClient.getJwtToken()));
     }
 
     private JwtTestTokenUtil tokenUtil() {

@@ -1,10 +1,12 @@
+/* (C) 2017-2023 Piter.NL
+ * Use of this code allowed under restrictions. See LICENSE.txt for details.
+ */
 package nl.piter.web.t7.cucumber.util;
 
 import lombok.extern.slf4j.Slf4j;
+import nl.piter.web.t7.cucumber.exception.CucumberTestException;
 import nl.piter.web.t7.cucumber.util.jwt.JwtTestAuthRequest;
 import nl.piter.web.t7.cucumber.util.jwt.JwtTestToken;
-import nl.piter.web.t7.cucumber.exception.CucumberTestException;
-
 import org.springframework.http.*;
 import org.springframework.web.client.HttpStatusCodeException;
 import org.springframework.web.client.RestClientException;
@@ -37,12 +39,12 @@ public class RestClient {
 
     public RestClient(RestTemplate restTemplate, String url) {
         this.restTemplate = restTemplate;
-        this.serviceUrl=url;
+        this.serviceUrl = url;
         log.debug("<<< New RestClient() >>>"); // should be created each scenario.
     }
 
     public boolean hasError() {
-        return (this.lastErrorStatusCode!=null) || (this.lastException!=null);
+        return (this.lastErrorStatusCode != null) || (this.lastException != null);
     }
 
     public void assertNoError() {
@@ -50,7 +52,7 @@ public class RestClient {
             if (this.lastErrorStatusCode != null) {
                 throw new CucumberTestException("Cannot get last HTTP status code because of error: " + this.lastErrorStatusCode, this.lastException);
             } else {
-                throw new CucumberTestException("Invalid state: lastResponse is null",lastException);
+                throw new CucumberTestException("Invalid state: lastResponse is null", lastException);
             }
         }
     }
@@ -75,9 +77,9 @@ public class RestClient {
 
     public void clear() {
         this.lastResponse = null;
-        this.lastException =null;
+        this.lastException = null;
         this.lastErrorStatusCode = null;
-        this.lastErrorResponse =null;
+        this.lastErrorResponse = null;
     }
 
     public HttpHeaders createJsonHeaders() {
@@ -115,15 +117,15 @@ public class RestClient {
     }
 
     public String doGetString(String url) {
-        return doGet(url,null,String.class);
+        return doGet(url, null, String.class);
     }
 
     public <TR> TR doGet(String url, Class<TR> responseType) {
-        return doGet(url,null,responseType);
+        return doGet(url, null, responseType);
     }
 
     public <TR, TS> TR doGet(String url, Map<String, String> queryParams, Class<TR> responseType) {
-        log.debug("doGet: {}?{}", url,queryParams);
+        log.debug("doGet: {}?{}", url, queryParams);
         clear();
 
         // Query Parameters:
@@ -152,7 +154,7 @@ public class RestClient {
 
 
     public <TR, TS> TR doPost(String url, TS body, Map<String, String> queryParams, Class<TR> responseType) {
-        log.debug("doPost: {}/{}", url,body);
+        log.debug("doPost: {}/{}", url, body);
         clear();
 
         // Query Parameters:
@@ -188,13 +190,13 @@ public class RestClient {
         log.error("handle(): RestClientException: {}", exception.getMessage());
 
         // Update (error) status, and clear previous response.
-        this.lastErrorStatusCode=null;
-        this.lastErrorResponse =null;
-        this.lastResponse=null;
-        this.lastException=exception;
+        this.lastErrorStatusCode = null;
+        this.lastErrorResponse = null;
+        this.lastResponse = null;
+        this.lastException = exception;
         if (exception instanceof HttpStatusCodeException httpException) {
-            this.lastErrorStatusCode =  httpException.getStatusCode();
-            this.lastErrorResponse =httpException.getResponseBodyAsByteArray();
+            this.lastErrorStatusCode = httpException.getStatusCode();
+            this.lastErrorResponse = httpException.getResponseBodyAsByteArray();
         } else {
             throw exception;
         }
@@ -205,6 +207,6 @@ public class RestClient {
     }
 
     public void setAuthURl(String authPath) {
-        this.authUrl=authPath;
+        this.authUrl = authPath;
     }
 }

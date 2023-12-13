@@ -1,6 +1,9 @@
 /* (C) 2017-2023 Piter.NL
  * Use of this code allowed under restrictions. See LICENSE.txt for details.
  */
+/* (C) 2017-2023 Piter.NL
+ * Use of this code allowed under restrictions. See LICENSE.txt for details.
+ */
 package nl.piter.web.t7.authentication.service;
 
 import com.google.common.base.Strings;
@@ -64,10 +67,11 @@ public class T7UserDetailsServiceDBImpl implements T7UserDetailsService {
         }
     }
 
+    @Transactional
     public T7AppUser saveUserDetails(T7AppUser userDetails) {
         List<String> auths = T7AppUserMapper.toStringList(userDetails.getAuthorities());
+        // Optional: Here a merge is possible with a previous stored user and new savedUser:
         User savedUser = saveUser(userDetails, auths);
-        // TODO: Merge with database: savedUser
         return T7AppUserMapper.toT7User(savedUser);
     }
 

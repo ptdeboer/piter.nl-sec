@@ -1,9 +1,11 @@
 /* (C) 2017-2023 Piter.NL
  * Use of this code allowed under restrictions. See LICENSE.txt for details.
  */
+/* (C) 2017-2023 Piter.NL
+ * Use of this code allowed under restrictions. See LICENSE.txt for details.
+ */
 package nl.piter.web.t7.ft;
 
-import nl.piter.web.t7.WebAppT7;
 import org.springframework.boot.SpringApplication;
 import org.springframework.context.ConfigurableApplicationContext;
 
@@ -13,13 +15,18 @@ import org.springframework.context.ConfigurableApplicationContext;
 public class WebAppStarter {
 
     private ConfigurableApplicationContext appContext;
+    private final Class<?> startClass;
+
+    public WebAppStarter(Class<?> startClass) {
+        this.startClass = startClass;
+    }
 
     public void start(String[] args) {
         startWithProfiles(null, args);
     }
 
     public void startWithProfiles(String[] profiles, String[] args) {
-        SpringApplication app = new SpringApplication(WebAppT7.class);
+        SpringApplication app = new SpringApplication(startClass);
         if (profiles != null) {
             app.setAdditionalProfiles(profiles);
         }

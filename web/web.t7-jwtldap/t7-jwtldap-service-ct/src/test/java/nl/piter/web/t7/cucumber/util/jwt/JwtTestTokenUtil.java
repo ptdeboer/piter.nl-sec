@@ -1,3 +1,6 @@
+/* (C) 2017-2023 Piter.NL
+ * Use of this code allowed under restrictions. See LICENSE.txt for details.
+ */
 package nl.piter.web.t7.cucumber.util.jwt;
 
 import io.jsonwebtoken.Claims;
@@ -37,7 +40,7 @@ public class JwtTestTokenUtil {
     }
 
     public boolean isValid(String token) {
-        return this.getUsernameFromToken(token)!=null;
+        return this.getUsernameFromToken(token) != null;
     }
 
     public String getUsernameFromToken(String token) {
@@ -72,14 +75,14 @@ public class JwtTestTokenUtil {
     }
 
     public String toString(JwtTestToken jwtTestToken) {
-        StringBuilder sb=new StringBuilder();
+        StringBuilder sb = new StringBuilder();
         sb.append("Token:[");
         Claims claims = this.getClaimsFromToken(jwtTestToken.token);
         Iterator<String> keyIterator = claims.keySet().iterator();
         while (keyIterator.hasNext()) {
-            String key=keyIterator.next();
+            String key = keyIterator.next();
             Object value = claims.get(key);
-            sb.append(String.format("%s: '%s'",key,value));
+            sb.append(String.format("%s: '%s'", key, value));
             if (keyIterator.hasNext()) {
                 sb.append(", ");
             }

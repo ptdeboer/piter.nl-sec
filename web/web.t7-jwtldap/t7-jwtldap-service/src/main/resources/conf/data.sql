@@ -1,5 +1,5 @@
 --
--- Default data for Demo purposes
+-- Default data for demo purposes
 --
 
 -- local authorities, only used by the default (local) admin account.

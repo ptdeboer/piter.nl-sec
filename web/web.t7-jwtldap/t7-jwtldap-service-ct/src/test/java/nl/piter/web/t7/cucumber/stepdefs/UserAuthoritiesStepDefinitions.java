@@ -1,10 +1,14 @@
+/* (C) 2017-2023 Piter.NL
+ * Use of this code allowed under restrictions. See LICENSE.txt for details.
+ */
 package nl.piter.web.t7.cucumber.stepdefs;
 
+import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import lombok.extern.slf4j.Slf4j;
 import nl.piter.web.t7.cucumber.util.RestClient;
 import org.springframework.beans.factory.annotation.Autowired;
-import io.cucumber.java.en.Then;
+import org.springframework.stereotype.Component;
 
 import java.util.Set;
 
@@ -21,7 +25,7 @@ public class UserAuthoritiesStepDefinitions {
     @When("I request the user authorities using a GET to url {string}")
     public void i_request_the_user_authorities_using_a_get_to_url(String authUrl) {
         String response = restClient.doGetString(authUrl);
-        log.info("i_request_the_user_authorities_using_a_get_to_url(): response = {}",response);
+        log.info("i_request_the_user_authorities_using_a_get_to_url(): response = {}", response);
     }
 
     @Then("the response must match JSON StringSet:")
@@ -29,8 +33,8 @@ public class UserAuthoritiesStepDefinitions {
     public void the_response_must_match_json_string_set(String strSet) {
         restClient.assertNoError();
         Set<String> expected = jsonToStringSet(strSet);
-        log.debug("the_response_must_match_json_string_set(): expected:'{}'",expected);
-        Set result=jsonToStringSet(restClient.getLastResponse().getBody().toString());
+        log.debug("the_response_must_match_json_string_set(): expected:'{}'", expected);
+        Set result = jsonToStringSet(restClient.getLastResponse().getBody().toString());
         assertThat(result).isEqualTo(expected);
     }
 

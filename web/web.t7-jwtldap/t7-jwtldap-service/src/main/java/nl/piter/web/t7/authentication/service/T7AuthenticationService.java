@@ -1,6 +1,9 @@
 /* (C) 2017-2023 Piter.NL
  * Use of this code allowed under restrictions. See LICENSE.txt for details.
  */
+/* (C) 2017-2023 Piter.NL
+ * Use of this code allowed under restrictions. See LICENSE.txt for details.
+ */
 package nl.piter.web.t7.authentication.service;
 
 import lombok.extern.slf4j.Slf4j;
@@ -144,7 +147,7 @@ public class T7AuthenticationService {
 
         // Match Ldap Person memberships and map to (Granted) Authorities;
         this.matchStoredLdapAuthorities(ldapPerson).stream()
-                .map(auth -> auth.getAuthorityName())
+                .map(Authority::getAuthorityName)
                 .forEach(authorityName -> mergedAuthorities.add(new SimpleGrantedAuthority(authorityName)));
 
         // Merge and map to AppUser:
@@ -170,25 +173,23 @@ public class T7AuthenticationService {
 
         // Use Memberships to find matching Roles for now, no Roles have yet been defined.
         List<String> memberShips = ldapPerson.getMemberShips();
-        memberShips.stream().forEach(memberShip -> log.debug(" - LDAP memberShip:'{}'", memberShip));
+        memberShips.forEach(memberShip -> log.debug(" - LDAP memberShip:'{}'", memberShip));
         Collection<LdapRole> ldapRoles = ldapDao.findByRoleNames(memberShips);
-        if ((ldapRoles == null) || (ldapRoles.size() == 0)) {
+        if ((ldapRoles == null) || (ldapRoles.isEmpty())) {
             log.warn("No matching LDAP membership roles for user:{}", ldapPerson.getUserName());
             return new ArrayList<>();
         } else {
-            ldapRoles.stream().forEach(role -> {
-                log.debug(" - Found matching LDAP Role => Authorities: '{}' => {}",
-                        role.getRoleName(),
-                        role.getAuthorities().stream()
-                                .map(Authority::getAuthorityName)
-                                .collect(Collectors.toList()));
-            });
+            ldapRoles.forEach(role -> log.debug(" - Found matching LDAP Role => Authorities: '{}' => {}",
+                    role.getRoleName(),
+                    role.getAuthorities().stream()
+                            .map(Authority::getAuthorityName)
+                            .collect(Collectors.toList())));
         }
         // LDAP Roles to Authorities. Merge authorities from all Roles into flatMap
         return ldapRoles.stream()
                 .map(LdapRole::getAuthorities)
                 .flatMap(Collection::stream)
-                .collect(Collectors.toList());
+                .toList();
     }
 
     /**

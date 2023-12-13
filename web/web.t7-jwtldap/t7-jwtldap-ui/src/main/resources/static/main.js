@@ -1,3 +1,6 @@
+/* (C) 2017-2023 Piter.NL
+ * Use of this code allowed under restrictions. See LICENSE.txt for details.
+ */
 $(document).ready(function () {
 
         registerActions();
@@ -80,7 +83,7 @@ $(document).ready(function () {
                         updateUserCredentials();
                     },
                     function (xhr) {
-                        alert("Failed to validate current Credentials: "+xhr.responseText);
+                        alert("Failed to validate current Credentials: " + xhr.responseText);
                         console.error("Error:" + xhr.status);
                         localStorage.clear();
                         updateUserCredentials();

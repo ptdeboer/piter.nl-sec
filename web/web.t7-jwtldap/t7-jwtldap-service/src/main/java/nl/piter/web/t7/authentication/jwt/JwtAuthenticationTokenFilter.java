@@ -1,6 +1,9 @@
 /* (C) 2017-2023 Piter.NL
  * Use of this code allowed under restrictions. See LICENSE.txt for details.
  */
+/* (C) 2017-2023 Piter.NL
+ * Use of this code allowed under restrictions. See LICENSE.txt for details.
+ */
 package nl.piter.web.t7.authentication.jwt;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -46,7 +49,7 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
         this.jwtTokenUtil = jwtTokenUtil;
     }
 
-    // Note: do not throw exceptions here unless there is some real internal conflict as these exceptions bypass the RestResponseExceptionHandler.
+    // Note: do not throw exceptions here unless there is some real internal error as exceptions thrown here bypass the RestResponseExceptionHandler.
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws ServletException, IOException {
 
@@ -101,7 +104,7 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
                 SecurityContextHolder.getContext().setAuthentication(authentication);
             }
         }
-        // Even if not authentication, continue, but without valid authentication.
+        // Even if not authenticated, continue, but without valid authentication.
         chain.doFilter(request, response);
     }
 

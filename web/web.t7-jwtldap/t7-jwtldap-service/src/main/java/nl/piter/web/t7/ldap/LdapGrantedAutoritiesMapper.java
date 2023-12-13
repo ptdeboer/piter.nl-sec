@@ -1,6 +1,9 @@
 /* (C) 2017-2023 Piter.NL
  * Use of this code allowed under restrictions. See LICENSE.txt for details.
  */
+/* (C) 2017-2023 Piter.NL
+ * Use of this code allowed under restrictions. See LICENSE.txt for details.
+ */
 package nl.piter.web.t7.ldap;
 
 import lombok.extern.slf4j.Slf4j;
@@ -20,7 +23,7 @@ public class LdapGrantedAutoritiesMapper implements GrantedAuthoritiesMapper {
         //Todo:
         log.debug("mapAuthorities():Number of granted ldap authorities:{}", ldapAuths.size());
         for (GrantedAuthority auth : ldapAuths) {
-            log.debug("mapAuthorities(): - ldap granted authority:{}",auth.getAuthority());
+            log.debug("mapAuthorities(): - ldap granted authority:{}", auth.getAuthority());
         }
         return ldapAuths;
     }

@@ -8,6 +8,7 @@ Example combining Jason Web Tokens (JWT) using LDAP and stored User Roles from D
 - Uses LDAP for *Authentication*.
 - Query LDAP for SSO (LDAP) memberships and (LDAP) roles.
 - Resolve memberships and roles against local *Authorization* DB.
+- Cucumber example.
 
 Dev
 ---
@@ -20,19 +21,16 @@ Architecture:
 - Testing LDAP server from unboundid-ldapsdk.
 - Junit 5, Cucumber 7.14 (demo)
 
-
 Build
 ---
 
     mvn clean package verify
-
 
 Service
 --- 
 Start service:
 
     java -jar t7-jwtldap-service/target/t7-jwtldap-service-0.1.0-SNAPSHOT-exec.jar
-
 
 API
 ---

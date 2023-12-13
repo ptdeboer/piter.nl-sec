@@ -1,9 +1,12 @@
+/* (C) 2017-2023 Piter.NL
+ * Use of this code allowed under restrictions. See LICENSE.txt for details.
+ */
 package nl.piter.web.t7.cucumber.exception;
 
 /**
  * Unchecked exception for error during Cucumber tests.
  */
-public class CucumberTestException extends  RuntimeException {
+public class CucumberTestException extends RuntimeException {
     public CucumberTestException(String message) {
         super(message);
     }

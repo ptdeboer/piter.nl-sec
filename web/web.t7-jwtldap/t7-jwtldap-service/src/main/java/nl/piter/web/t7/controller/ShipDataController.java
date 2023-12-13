@@ -1,6 +1,9 @@
 /* (C) 2017-2023 Piter.NL
  * Use of this code allowed under restrictions. See LICENSE.txt for details.
  */
+/* (C) 2017-2023 Piter.NL
+ * Use of this code allowed under restrictions. See LICENSE.txt for details.
+ */
 package nl.piter.web.t7.controller;
 
 import lombok.extern.slf4j.Slf4j;
@@ -62,13 +65,13 @@ public class ShipDataController {
         if (optShip.isPresent()) {
             // use JSON body.
             newShip = this.shipService.save(optShip.get());
-        } else if (!optShipName.isPresent()) {
+        } else if (optShipName.isEmpty()) {
             throw new ServiceInvalidParameterException("When no JSON body is present, there must at least be one '?xName=...' Query Parameter");
         } else {
             newShip = Ship.builder()
                     .shipName(optShipName.get())
-                    .shipDescription(optDescription.isPresent() ? optDescription.get() : "")
-                    .referenceId(optRefId.isPresent() ? optRefId.get() : null)
+                    .shipDescription(optDescription.orElse(""))
+                    .referenceId(optRefId.orElse(null))
                     .build();
         }
 
@@ -85,7 +88,7 @@ public class ShipDataController {
 
     @DeleteMapping(value = "/{id}")
     public void deleteShip(@PathVariable(value = "id") Long id) {
-        log.debug("deleteShip():id='{}'",id);
+        log.debug("deleteShip():id='{}'", id);
         this.shipService.delete(id);
     }
 

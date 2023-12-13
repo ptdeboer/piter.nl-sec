@@ -1,6 +1,9 @@
 /* (C) 2017-2023 Piter.NL
  * Use of this code allowed under restrictions. See LICENSE.txt for details.
  */
+/* (C) 2017-2023 Piter.NL
+ * Use of this code allowed under restrictions. See LICENSE.txt for details.
+ */
 package nl.piter.web.t7.authentication.jwt;
 
 import io.jsonwebtoken.Claims;
@@ -14,7 +17,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
-import java.io.Serializable;
 import java.nio.charset.StandardCharsets;
 import java.security.InvalidKeyException;
 import java.security.Key;
@@ -28,8 +30,8 @@ import static nl.piter.web.t7.config.JwtConfig.BEARER_PREFIX_WHITESPACE;
 
 /**
  * Updated JwtTokenUtil.
- * Now throws exceptions unless are explicit 'validate' methods are called which should return
- * a boolean in case of invalid credentials i.s.o throw an (unchecked) JwtException.
+ * Methods now throw exceptions unless they are explicit 'validation' methods which return a boolean in the case of
+ * invalid credentials i.s.o throw an (unchecked) JwtException.
  */
 @Slf4j
 public class JwtTokenUtil {

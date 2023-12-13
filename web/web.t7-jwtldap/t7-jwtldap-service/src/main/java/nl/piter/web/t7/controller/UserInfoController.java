@@ -1,6 +1,9 @@
 /* (C) 2017-2023 Piter.NL
  * Use of this code allowed under restrictions. See LICENSE.txt for details.
  */
+/* (C) 2017-2023 Piter.NL
+ * Use of this code allowed under restrictions. See LICENSE.txt for details.
+ */
 package nl.piter.web.t7.controller;
 
 import lombok.extern.slf4j.Slf4j;
@@ -52,10 +55,7 @@ public class UserInfoController {
 
     @RequestMapping(value = "/user", method = RequestMethod.GET)
     public UserDetails getUser() {
-
-        UserDetails userDetails = getContextUserDetails();
-
-        return userDetails;
+        return getContextUserDetails();
     }
 
     @RequestMapping(value = "/user/roles", method = RequestMethod.GET)
@@ -73,7 +73,7 @@ public class UserInfoController {
     public List<String> getUserAuthorities() {
         UserDetails userDetails = this.getContextUserDetails();
         if (userDetails == null) {
-            return new ArrayList();
+            return new ArrayList<>();
         }
         Collection<? extends GrantedAuthority> auths = userDetails.getAuthorities();
         if (auths == null)

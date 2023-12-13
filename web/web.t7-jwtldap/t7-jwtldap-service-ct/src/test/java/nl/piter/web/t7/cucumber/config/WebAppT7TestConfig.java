@@ -1,3 +1,6 @@
+/* (C) 2017-2023 Piter.NL
+ * Use of this code allowed under restrictions. See LICENSE.txt for details.
+ */
 package nl.piter.web.t7.cucumber.config;
 
 import nl.piter.web.t7.cucumber.util.RestClient;
@@ -38,7 +41,7 @@ public class WebAppT7TestConfig {
     @Bean
     @Scope(SCOPE_CUCUMBER_GLUE) // because RestClient is stateful
     public RestClient restClient(RestTemplate restTemplate) {
-        return new RestClient(restTemplate, "http://localhost:"+port);
+        return new RestClient(restTemplate, "http://localhost:" + port);
     }
 
     @Bean

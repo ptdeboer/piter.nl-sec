@@ -56,7 +56,7 @@ user info
 
     curl -X GET -H "${TOKEN_HEADER}" http://localhost:9001/user/ldap/roles ; echo
 
-Note that local 'admin' example doesn't have roles nor ldap memberships.
+Note that local 'admin' example doesn't have roles nor ldap memberships as the authorities are set in the properties file.
 
 User db
 ---

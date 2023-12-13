@@ -1,6 +1,9 @@
 /* (C) 2017-2023 Piter.NL
  * Use of this code allowed under restrictions. See LICENSE.txt for details.
  */
+/* (C) 2017-2023 Piter.NL
+ * Use of this code allowed under restrictions. See LICENSE.txt for details.
+ */
 package nl.piter.web.t7.service;
 
 import lombok.extern.slf4j.Slf4j;
@@ -31,7 +34,7 @@ public class ShipDataService {
 
     @PreAuthorize("hasAuthority('KAAPVAARDERS_VIEWER')")
     public List<Ship> list(Optional<String> name, Optional<String> refId) {
-        if (name.isPresent() && !refId.isPresent()) {
+        if (name.isPresent() && refId.isEmpty()) {
             return this.shipDao.listAll();
         } else {
             return this.shipDao.query(name, refId);

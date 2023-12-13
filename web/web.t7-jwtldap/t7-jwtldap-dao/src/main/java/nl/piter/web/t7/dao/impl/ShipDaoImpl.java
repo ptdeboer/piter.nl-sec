@@ -1,6 +1,9 @@
 /* (C) 2017-2023 Piter.NL
  * Use of this code allowed under restrictions. See LICENSE.txt for details.
  */
+/* (C) 2017-2023 Piter.NL
+ * Use of this code allowed under restrictions. See LICENSE.txt for details.
+ */
 package nl.piter.web.t7.dao.impl;
 
 
@@ -29,7 +32,7 @@ public class ShipDaoImpl implements ShipDao {
     @Override
     public Ship find(Long id) {
         Optional<Ship> opt = shipRepository.findById(id);
-        return opt.isPresent() ? opt.get() : null;
+        return opt.orElse(null);
     }
 
     @Override
@@ -49,8 +52,8 @@ public class ShipDaoImpl implements ShipDao {
 
     @Override
     public List<Ship> query(Optional<String> name, Optional<String> refId) {
-        return shipRepository.query(name.isPresent(), name.isPresent() ? name.get() : "",
-                refId.isPresent(), refId.isPresent() ? refId.get() : "");
+        return shipRepository.query(name.isPresent(), name.orElse(""),
+                refId.isPresent(), refId.orElse(""));
     }
 
     @Override
