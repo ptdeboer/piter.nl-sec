@@ -1,7 +1,7 @@
 Piter.NL Security Examples
 ===
 
-(C-left) 2015-2024 Piter.NL - Free of use.
+(C-left) 2015-2024 Piter.NL - Free of use.\
 See LICENSE.txt for more details.
 
 Security related (Spring) Web & Cryptography code examples.
@@ -12,7 +12,7 @@ DISCLAIMER: Some code might not be up to date and no guarantees are given.
 PKI
 ---
 
-Public Key Infrastructere (PKI) examples.
+Public Key Infrastructere (PKI) examples.\
 See pki-demo how to setup your own PKI with custom Root CA, Intermediate CA:
 
 - pki/pki-demo
