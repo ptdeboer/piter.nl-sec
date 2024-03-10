@@ -1,18 +1,22 @@
 Piter.NL Security Examples
 ===
 
-(C) 2015-2023 Piter.NL - free of use.
+(C-left) 2015-2024 Piter.NL - Free of use.
+See LICENSE.txt for more details.
 
-Security related (Spring) Web & Crypto code examples.
+Security related (Spring) Web & Cryptography code examples.
+
+DISCLAIMER: Some code might not be up to date and no guarantees are given.
+
 
 PKI
 ---
 
-PKI utils and scripts:
+Public Key Infrastructere (PKI) examples.
+See pki-demo how to setup your own PKI with custom Root CA, Intermediate CA:
 
 - pki/pki-demo
 
-See pki-demo how to setup your own PKI with custom Root CA, Intermediate CA.
 
 Web TLS (ssl-ma)
 ---
@@ -21,9 +25,13 @@ Spring Boot example how to use ssl-ma between two microservices.
 
 - web/web.t6-tls => nl.piter.web:web.t6-tls
 
+
 Authentication and Authorization
---- 
+---
 
 Spring boot with JWT and LDAP example:
 
 - web/web.t7-jwtldap => nl.piter.web:web.t7-jwtldap
+
+The used JWT tokens above are based on server-side secrets. No PKI example (yet).
+
