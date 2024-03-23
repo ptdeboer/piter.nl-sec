@@ -1,7 +1,7 @@
 OpenSSL
 ===
 
-OpenSSL/Keytool cheet-sheet.
+OpenSSL/Keytool cheatsheet.
 
 
 Types
