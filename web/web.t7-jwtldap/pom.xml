@@ -11,11 +11,11 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <spring.boot.version>3.1.4</spring.boot.version>
+        <spring.boot.version>3.2.2</spring.boot.version>
         <app.build.timestamp>${maven.build.timestamp}</app.build.timestamp>
         <maven.build.timestamp.format>yyyy-MM-dd HH:mm:ss.SSS</maven.build.timestamp.format>
-        <maven.compiler.source>17</maven.compiler.source>
-        <maven.compiler.target>17</maven.compiler.target>
+        <maven.compiler.source>21</maven.compiler.source>
+        <maven.compiler.target>21</maven.compiler.target>
     </properties>
 
     <modules>
