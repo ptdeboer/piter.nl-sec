@@ -35,7 +35,7 @@
                     <version>3.11.0</version>
                     <configuration>
                         <!-- <release/> replaces <source/> and <target/> -->
-                        <release>${java.version</release>
+                        <release>${java.version}</release>
                     </configuration>
                 </plugin>
                 <!-- tests and integration tests -->
