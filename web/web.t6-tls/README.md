@@ -12,7 +12,7 @@ Versions
 ---
 
 - Java 17, 21
-- Spring Boot 3.1.4
+- Spring Boot 3.3.4
 - Apache HTTPClient 5
 
 Build
