@@ -60,6 +60,7 @@ Dump DER, CER, CRT from binary DER format:
 Dump PRIVATE key: Note prints out *only* RSA modulo info, no metadata is contained inside private key:
 
     openssl rsa -in privkey.key -text
+    openssl rsa -in privkey.pem -text
 
     keytool -list -v -keystore keystore.jks -storepass passwd
 
@@ -197,9 +198,12 @@ Change Alias (keytool):
 
     keytool -changealias -alias "old-alias" -destalias "new-alias" -keystore keystore.p12
 
-Convert p12 <-> jks (keytool):
+Convert p12 -> jks (keytool):
 
     keytool -importkeystore -srckeystore keystore.p12 -destkeystore keystore.jks -srcstoretype pkcs12
+
+Convert p12 <- jks (keytool):
+
     keytool -importkeystore -srckeystore keystore.jks -destkeystore keystore.p12 -deststoretype pkcs12
 
 Change Store and Private key password (keytool), always do BOTH:
