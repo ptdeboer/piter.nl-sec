@@ -1,12 +1,12 @@
 Piter.NL Security Examples
 ===
 
-(C-left) 2015-2024 Piter.NL - Free of use.\
+(C-Left) 2015-2025 Piter.NL - Free of use.\
 See LICENSE.txt for more details.
 
-Security related (Spring) Web & Cryptography code examples.
-
-DISCLAIMER: Some code might not be up to date and no guarantees are given.
+Security related (Spring) Web & Cryptography code examples.\
+The code examples in this repository are for demonstration purposes only.\
+No guarantees are given.
 
 
 PKI
