@@ -2,6 +2,7 @@ PKI Demo
 ===
 
 Example to setup PKI with custom Root CA, Intermediate CA, and two (leaf) entities: Company and Customer.
+This example could be useful when setting up a mock PKI structure.
 
 
 Setup
