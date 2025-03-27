@@ -4,7 +4,9 @@
 //
 package nl.piter.web.t6.controller.rest;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.ToString;
 
 import java.util.Collection;
 

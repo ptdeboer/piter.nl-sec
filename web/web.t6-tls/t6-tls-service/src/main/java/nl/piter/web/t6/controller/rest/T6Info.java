@@ -6,7 +6,6 @@ package nl.piter.web.t6.controller.rest;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.Getter;
 import lombok.ToString;
 
 /**

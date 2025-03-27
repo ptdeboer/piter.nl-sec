@@ -15,7 +15,7 @@ public class LoggingTest {
 
     @Test
     public void logInfo() {
-        log.info( "Junit5/Jupiter enabled.");
+        log.info("Junit5/Jupiter enabled.");
     }
 
 }

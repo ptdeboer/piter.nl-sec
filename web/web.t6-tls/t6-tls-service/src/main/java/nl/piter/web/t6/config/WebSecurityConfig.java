@@ -12,7 +12,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.SecurityFilterChain;
@@ -27,15 +26,15 @@ public class WebSecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
         // No CSRF for non-ui:
-        httpSecurity.csrf((csrf) -> csrf.disable())
-                .sessionManagement((session) -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+        httpSecurity.csrf(csrf -> csrf.disable())
+                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeRequests()
                 // Public:
                 .requestMatchers("/ping").permitAll()
                 // Authenticated:
                 .requestMatchers("/domain/**").authenticated()
                 .and()
-                .x509((x509) ->  {
+                .x509(x509 -> {
                     x509.x509PrincipalExtractor(new SubjectX509PrincipalExtractor());
                     x509.userDetailsService(userDetailsService());
                 })

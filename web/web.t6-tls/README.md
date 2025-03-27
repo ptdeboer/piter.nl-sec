@@ -54,7 +54,7 @@ __NOTE__: the _--insecure_ means the remote server certificate is not verified, 
 This is useful to test client side keys, ignoring potential host certificate issues or in this case
 connect to a 'demo' service which runs at 'localhost'.
 
-Full example using both client-side and server-side certificate verification, for that the CA root needs 
+Full example using both client-side and server-side certificate verification, for that the CA root needs
 to be supplied in case of self-signed certificates, which is the case for this demo:
 
     curl -v -GET -E keystore.pem  --cacert t6-tls-service/src/main/resources/keystores/root-ca.crt.pem\
