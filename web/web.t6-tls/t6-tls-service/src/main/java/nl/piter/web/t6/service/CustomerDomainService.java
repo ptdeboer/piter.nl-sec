@@ -4,7 +4,6 @@
 //
 package nl.piter.web.t6.service;
 
-import lombok.extern.slf4j.Slf4j;
 import nl.piter.web.t6.controller.rest.DomainInfo;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;

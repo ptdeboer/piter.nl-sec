@@ -30,14 +30,14 @@ import java.util.List;
 @Slf4j
 @RestController
 public class DomainController {
-    
+
     private final T6Info t6Info;
     private final CustomerDomainService domainService;
 
     @Autowired
     protected DomainController(T6Info t6Info, CustomerDomainService domainService) {
-        this.t6Info=t6Info;
-        this.domainService=domainService;
+        this.t6Info = t6Info;
+        this.domainService = domainService;
     }
 
     /**

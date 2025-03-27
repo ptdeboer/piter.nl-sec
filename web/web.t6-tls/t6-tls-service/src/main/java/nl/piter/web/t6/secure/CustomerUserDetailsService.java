@@ -19,7 +19,7 @@ import static nl.piter.web.t6.secure.Authority.CUSTOMER;
 @Slf4j
 public class CustomerUserDetailsService implements UserDetailsService {
 
-    private List<String> customers = Arrays.asList("The Customer",
+    private final List<String> customers = Arrays.asList("The Customer",
             "Sum Customer",
             "Another Customer");
 
@@ -30,14 +30,14 @@ public class CustomerUserDetailsService implements UserDetailsService {
      */
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        log.info("loadUserByUsername: {}", username);
+        log.info("loadUserByUsername: '{}'", username);
         if (customers.contains(username)) {
-            log.info("Authorization ok for user: {}", username);
+            log.info("Authorization ok for user: '{}'", username);
             return new User(username, "", AuthorityUtils.commaSeparatedStringToAuthorityList(CUSTOMER.toString()));
         } else {
             // Exception is auto-mapped to 403:
-            log.error("Authorization NOT ok. User not authorized:{}", username);
-            throw new UsernameNotFoundException("User not authorized:" + username);
+            log.error("Authorization NOT ok. User not authorized: '{}'", username);
+            throw new UsernameNotFoundException("User not authorized: '" + username + "'");
         }
     }
 
