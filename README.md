@@ -18,10 +18,10 @@ See pki-demo how to setup your own PKI with custom Root CA, Intermediate CA:
 - pki/pki-demo
 
 
-Web TLS (ssl-ma)
+Web TLS (mTLS)
 ---
 
-Spring Boot example how to use ssl-ma between two microservices.
+Spring Boot example how to use tls-ma/mTLS between two microservices.
 
 - web/web.t6-tls => nl.piter.web:web.t6-tls
 

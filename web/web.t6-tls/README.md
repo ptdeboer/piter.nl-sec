@@ -1,11 +1,11 @@
 Spring Boot TLS-ma example
 ===
 
-Spring-Boot TLS Mutual Authentication (TLS-ma) example.
+Spring-Boot TLS Mutual Authentication (mTLS) example.
 
 Modules:
 
-- t6-tls-service      : Example Spring Boot Service with TLS-ma.
+- t6-tls-service      : Example Spring Boot Service with TLS-ma/mTLS
 - t6-tls-service-test : Example functional and integration testing.
 
 Versions
@@ -23,7 +23,7 @@ Build
 Service
 ---
 
-Spring Boot micro-service example using Spring TLS (ssl) configuration.
+Spring Boot micro-service example using Spring mutual TLS (mTLS) configuration.
 
 Start using maven:
 
