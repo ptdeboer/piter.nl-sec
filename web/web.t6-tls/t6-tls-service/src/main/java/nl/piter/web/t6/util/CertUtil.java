@@ -55,8 +55,8 @@ public class CertUtil {
     }
 
     public void logCertInfo(Logger log, X509Certificate cert) {
-        log.info("cert.subject   : '{}' (serial:#{})", cert.getSubjectDN().getName(), cert.getSerialNumber());
-        log.info("cert.issuer    : '{}'", cert.getIssuerDN().getName());
+        log.info("cert.subject   : '{}' (serial:#{})", cert.getSubjectX500Principal().getName(), cert.getSerialNumber());
+        log.info("cert.issuer    : '{}'", cert.getIssuerX500Principal().getName());
         log.info("cert.notBefore : '{}'", cert.getNotBefore());
         log.info("cert.notAfter  : '{}'", cert.getNotAfter());
     }

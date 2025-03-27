@@ -4,9 +4,11 @@
 //
 package nl.piter.web.t6.controller;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import nl.piter.web.t6.controller.rest.T6Info;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -16,19 +18,19 @@ import org.springframework.web.bind.annotation.RestController;
  * These url paths must also be allowed in the WebSecurityConfig.
  */
 @Slf4j
+@RequiredArgsConstructor
 @RestController
 public class PingController {
 
-    @Autowired
-    T6Info info;
+    private final T6Info info;
 
-    @RequestMapping(value = "/ping", method = RequestMethod.GET)
+    @GetMapping(value = "/ping")
     public String ping() {
         log.debug("ping");
         return "pong";
     }
 
-    @RequestMapping(value = "/info", method = RequestMethod.GET)
+    @GetMapping(value = "/info")
     public T6Info info() {
         log.debug("info");
         return info;
