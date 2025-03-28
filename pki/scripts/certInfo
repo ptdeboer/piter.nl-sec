@@ -1,0 +1,44 @@
+#!/bin/bash
+##
+# (C) Piter.NL
+#
+# Display x590 certificate info
+#
+
+
+if [ -z "$1" ] ; then
+   echo "usage: <cert>"
+   exit 1
+fi
+
+
+parseCert() {
+ local certInf="$1"
+ export SUBJ=$(echo "$certInf" | grep "Subject:" | sed "s/.*Subject:[ ]*\(.*\)/\1/")
+ export ISS=$(echo "$certInf" | grep "Issuer:" | sed "s/.*Issuer:[ ]*\(.*\)/\1/")
+ export CN=$(echo "$certInf" | grep Subject | grep CN | sed "s/.*CN=\([^,]*\).*/\1/g")
+ export EXP=$(echo "$certInf" | grep "Not After" | sed -e "s/.*Not.*After[ ]*: //")
+ export DATE=$(echo "$certInf" | grep "Not Before" | sed -e "s/.*Not.*Before[ ]*: //")
+}
+
+
+inf=$(openssl x509 -in "$1" -text -noout 2>/dev/null)
+
+echo "inf:$inf"
+
+if [ "$inf" == "" ] ; then
+   inf=$(openssl x509 -inform der -in "$1" -text -noout)
+fi
+
+echo "=== [x509] ==="
+echo "$inf"
+
+parseCert "$inf"
+echo "=== [summary] ==="
+echo " - SUBJ  : \"$SUBJ\""
+echo " - ISS   : \"$ISS\""
+echo " - CN    : \"$CN\""
+echo " - ISSUE : \"$DATE\""
+echo " - EXP   : \"$EXP\""
+
+
