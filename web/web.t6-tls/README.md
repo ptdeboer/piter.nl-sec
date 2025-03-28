@@ -18,7 +18,7 @@ Versions
 Build
 ---
 
-    mvn clean package
+    mvn clean verify
 
 Service
 ---
