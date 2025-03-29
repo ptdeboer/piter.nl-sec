@@ -1,0 +1,37 @@
+#!/bin/bash
+##
+# (C) Piter.NL
+#
+# Extract certs in p12 store to 'certs/' directory
+
+# Arguments:
+FILE="$1"
+PWD="$2"
+
+if [ -z "$PWD" ] ; then
+    echo "usage: <p12> <password>"
+    exit 1
+fi
+
+# Parameters:
+OUT=certs
+P12OUT="${OUT}/pk12certs.pems"
+
+# Init
+mkdir -vp "$OUT"
+
+# openssl (+sed cleanup)
+echo " - certfile : $FILE"
+echo " - outdir   : $OUT"
+openssl pkcs12 -nokeys -in "$FILE" -info -passin "pass:$PWD" |\
+ sed -n "/-----BEGIN CERTIFICATE-----/,/-----END CERTIFICATE-----/{p}" > "$P12OUT"
+
+# csplit:
+csplit -f "$OUT/cert_" -b "%02d.pem" "$P12OUT" "/----BEGIN CERTIFICATE-----/" '{*}'
+
+# certInfo:
+echo " - Info: $TXTFILE"
+for f in $(cd "$OUT"; ls *.pem) ; do
+    BASE=$(echo $f | sed "s/.pem//")
+    certInfo "$OUT/$f" > "$OUT/$BASE.txt" ;
+done

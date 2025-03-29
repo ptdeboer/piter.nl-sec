@@ -62,8 +62,6 @@ Dump PRIVATE key: Note prints out *only* RSA modulo info, no metadata is contain
     openssl rsa -in privkey.key -text
     openssl rsa -in privkey.pem -text
 
-    keytool -list -v -keystore keystore.jks -storepass passwd
-
 
 List Keystore
 ---
@@ -247,6 +245,14 @@ Dump CSR and show as plain text:
 
 	openssl req -text -noout -verify -in cert.csr
 	
+
+ASN1 Parse
+---
+ASN1Parse option. Note: cert file may not have text before "-----BEGIN..."
+
+    openssl asn1parse cert.pem
+    openssl asn1parse -inform DER -in cert.der
+
 
 OS configuration
 ===
