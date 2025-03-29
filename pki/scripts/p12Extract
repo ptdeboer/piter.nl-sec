@@ -16,6 +16,7 @@ fi
 # Parameters:
 OUT=certs
 P12OUT="${OUT}/pk12certs.pems"
+CERT_PREFIX=cert_
 
 # Init
 mkdir -vp "$OUT"
@@ -26,11 +27,14 @@ echo " - outdir   : $OUT"
 openssl pkcs12 -nokeys -in "$FILE" -info -passin "pass:$PWD" |\
  sed -n "/-----BEGIN CERTIFICATE-----/,/-----END CERTIFICATE-----/{p}" > "$P12OUT"
 
-# csplit:
-csplit -f "$OUT/cert_" -b "%02d.pem" "$P12OUT" "/----BEGIN CERTIFICATE-----/" '{*}'
+# csplit: Note: first cert_00 file contains empty space:
+csplit -f "$OUT/$CERT_PREFIX" -b "%02d.pem" "$P12OUT" "/----BEGIN CERTIFICATE-----/" '{*}'
+
+rm -vf ${OUT}/${CERT_PREFIX}00.pem
 
 # certInfo:
-echo " - Info: $TXTFILE"
+echo " - certs: "$(ls $OUT/*.pem)
+
 for f in $(cd "$OUT"; ls *.pem) ; do
     BASE=$(echo $f | sed "s/.pem//")
     certInfo "$OUT/$f" > "$OUT/$BASE.txt" ;
