@@ -1,0 +1,62 @@
+#!/bin/bash
+##
+# (C) Piter.NL
+#
+# Add certs to new or existing p12.
+
+# Arguments:
+
+P12="$1"
+shift
+PASS="$1"
+shift
+CERTS="$@"
+
+if [ -z "$CERTS" ] ; then
+    echo "usage: <p12> <password> <cert> [ <certs...> ]; <cert> or <certs> can be list of file or wildcard: cert/*.pem"
+    exit 1
+fi
+
+echo " - p12  :'${P12}'"
+echo " - pass :'${PASS}'"
+echo " - CERT :'${CERTS}'"
+
+###
+
+if [ -f ${P12} ]  ; then
+   echo "Use existing certstore [yY/nN]: $P12"
+else
+   echo "Create new certstore ? [yY/nN]: $P12"
+fi
+
+read ans
+if [ "$ans" != "y" ] && [ "$ans" != "Y" ] ; then
+	echo "Aborting..."
+	exit 1
+fi
+
+CERTDIR="certs"
+
+p12Extract "$P12" "$PASS"
+certFiles=`ls $CERTS`
+for f in $certFiles ; do
+    echo " - Adding: "$f
+    cp -vf "$f" "$CERTDIR"
+done
+
+cat ${CERTDIR}/*.pem > "${CERTDIR}/allcerts.pem"
+P12NEW=$(echo "$P12" | sed "s/\.p12/-new.p12/")
+
+echo " - Target: $P12NEW"
+
+echo " Continue yY/nN"
+read ans
+if [ "$ans" != "y" ] && [ "$ans" != "Y" ] ; then
+	echo "Aborting..."
+	exit 1
+fi
+
+openssl pkcs12 -export -nokeys -in "${CERTDIR}/allcerts.pem" -out "$P12NEW" -password "pass:$PASS"
+
+echo " - Created: $P12NEW"
+
