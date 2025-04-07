@@ -3,7 +3,7 @@
 # (C) Piter.NL
 #
 # Display X590 certificate info
-#
+# Options: -cn ; show Common Name (CN)
 
 
 if [ -z "$1" ] ; then
@@ -12,7 +12,7 @@ if [ -z "$1" ] ; then
 fi
 
 optInfo=1
-if [ "$2" == "-cn" ] ; then 
+if [ "$2" == "-cn" ] ; then
   optCn=1
   optInfo=
 fi
