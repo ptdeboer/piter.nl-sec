@@ -5,10 +5,23 @@
 # Display X590 certificate info
 #
 
+
 if [ -z "$1" ] ; then
    echo "usage: <cert>"
    exit 1
 fi
+
+optInfo=1
+if [ "$2" == "-cn" ] ; then 
+  optCn=1
+  optInfo=
+fi
+
+info() {
+ if [ -n "$optInfo" ] ; then
+    echo "$@"
+ fi
+}
 
 parseCert() {
  local certInf="$1"
@@ -20,22 +33,25 @@ parseCert() {
 }
 
 inf=$(openssl x509 -in "$1" -text -noout 2>/dev/null)
-
-echo "inf:$inf"
-
-if [ "$inf" == "" ] ; then
+if [ -z "$inf" ] ; then
    inf=$(openssl x509 -inform der -in "$1" -text -noout)
 fi
 
-echo "=== [x509] ==="
-echo "$inf"
+info "=== [x509] ==="
+info "$inf"
 
 parseCert "$inf"
-echo "=== [summary] ==="
-echo " - SUBJECT : \"$SUBJ\""
-echo " - ISSUER  : \"$ISS\""
-echo " - CN      : \"$CN\""
-echo " - ISSUED  : \"$DATE\""
-echo " - EXPIRE  : \"$EXP\""
+if [ -n "$optInfo" ] ; then
+  info  "=== [summary] ==="
+  info " - SUBJECT : \"$SUBJ\""
+  info " - ISSUER  : \"$ISS\""
+  info " - CN      : \"$CN\""
+  info " - ISSUED  : \"$DATE\""
+  info " - EXPIRE  : \"$EXP\""
+fi
+
+if [ -n "$optCn" ] ; then
+  echo "${CN}"
+fi
 
 
