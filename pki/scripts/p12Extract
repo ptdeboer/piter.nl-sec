@@ -3,32 +3,62 @@
 # (C) Piter.NL
 #
 # Extract certs in p12 store to 'certs/' directory
+# usage: [ <p12file> <paswd> ] | [ -pems certificates.pems ]
+#
 
 # Arguments:
-FILE="$1"
-PWD="$2"
 
-if [ -z "$PWD" ] ; then
-    echo "usage: <p12> <password>"
-    exit 1
+FILE=
+PWD=
+USEPEMS=
+PEMS=
+CSPLIT=$(which gcsplit && echo gcsplit || echo csplit)
+
+if [ "$1" == "-pems" ] ; then
+  FILE=
+  PWD=
+  PEMS="$2"
+  USEPEMS=1
+  if [ -z "$PEMS" ] ; then
+    echo "usage: -pems <pemsFile>"
+  exit 1
+  fi
+else
+  USEPEMS=
+  PEMS=
+  FILE="$1"
+  PWD="$2"
+  if [ -z "$PWD" ] ; then
+     echo "usage: <p12> <password>"
+     exit 1
+  fi
 fi
 
 # Parameters:
 OUT=certs
 P12OUT="${OUT}/pk12certs.pems"
+KEYOUT="${OUT}/private-key.pem"
 CERT_PREFIX=cert_
 
 # Init
 mkdir -vp "$OUT"
 
 # openssl (+sed cleanup)
-echo " - certfile : $FILE"
-echo " - outdir   : $OUT"
-openssl pkcs12 -nokeys -in "$FILE" -info -passin "pass:$PWD" |\
- sed -n "/-----BEGIN CERTIFICATE-----/,/-----END CERTIFICATE-----/{p}" > "$P12OUT"
+if [ -z "$USEPEMS" ] ; then
+  echo " - certfile : $FILE"
+  echo " - outdir   : $OUT"
+  openssl pkcs12 -nokeys -in "$FILE" -info -passin "pass:$PWD" |\
+  sed -n "/-----BEGIN CERTIFICATE-----/,/-----END CERTIFICATE-----/{p;}" > "$P12OUT"
+
+  # privates:
+  openssl pkcs12 -in "$FILE" -out "${KEYOUT}" -nodes -nocerts -passin "pass:$PWD"
+
+else
+  cp -vf $PEMS $P12OUT
+fi
 
 # csplit: Note: first cert_00 file contains empty space:
-csplit -f "$OUT/$CERT_PREFIX" -b "%02d.pem" "$P12OUT" "/----BEGIN CERTIFICATE-----/" '{*}'
+${CSPLIT} -f "$OUT/$CERT_PREFIX" -b "%02d.pem" "$P12OUT" "/----BEGIN CERTIFICATE-----/" '{*}'
 
 rm -vf ${OUT}/${CERT_PREFIX}00.pem
 
@@ -37,5 +67,7 @@ echo " - certs: "$(ls $OUT/*.pem)
 
 for f in $(cd "$OUT"; ls *.pem) ; do
     BASE=$(echo $f | sed "s/.pem//")
-    certInfo "$OUT/$f" > "$OUT/$BASE.txt" ;
+    OUTFILE="$OUT/$BASE.txt" 
+    echo " - $OUTFILE : "  $(certInfo "$OUT/$f" -cn)
+    certInfo "$OUT/$f" > "$OUTFILE"
 done
