@@ -34,7 +34,16 @@ parseCert() {
 
 inf=$(openssl x509 -in "$1" -text -noout 2>/dev/null)
 if [ -z "$inf" ] ; then
-   inf=$(openssl x509 -inform der -in "$1" -text -noout)
+   inf=$(openssl x509 -inform der -in "$1" -text -noout 2>/dev/null)
+   stat="$?"
+   if [ "$stat" == "1" ] ; then
+     inf=""
+   fi
+fi
+
+if [ -z "$inf" ] ; then
+   echo "*** Not a certificate file: $1"
+   exit 1
 fi
 
 info "=== [x509] ==="

@@ -67,7 +67,8 @@ echo " - certs: "$(ls $OUT/*.pem)
 
 for f in $(cd "$OUT"; ls *.pem) ; do
     BASE=$(echo $f | sed "s/.pem//")
-    OUTFILE="$OUT/$BASE.txt" 
-    echo " - $OUTFILE : "  $(certInfo "$OUT/$f" -cn)
+    OUTFILE="${OUT}/${BASE}.txt"
+    echo " - $OUTFILE : $(certInfo "$OUT/$f" -cn)"
     certInfo "$OUT/$f" > "$OUTFILE"
 done
+
