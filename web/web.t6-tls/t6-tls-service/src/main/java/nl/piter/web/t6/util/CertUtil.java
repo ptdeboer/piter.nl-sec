@@ -13,11 +13,13 @@ import java.util.List;
 import java.util.Optional;
 
 @Slf4j
+// Not autowired so it can be used during pre-configuration stage:
 public class CertUtil {
 
     private static CertUtil instance;
 
     public static CertUtil certUtil() {
+        // Lazy init:
         if (instance == null) {
             instance = new CertUtil();
         }

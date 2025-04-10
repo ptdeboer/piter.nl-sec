@@ -140,7 +140,12 @@ Combine/import into PKCS#12: a public PEM certificate file, CA certificate(s) an
 
 Import/create certificate (pem) only into new p12 using openssl:
 
-    openssl pkcs12 -export -nokeys -in certificate.pem -out truststore.p12
+    openssl pkcs12 -export -nokeys -in certificate.pem -out truststore.p12 -password pass:password
+
+Combine mutiple cert files (pem) into single truststore using openssl:
+
+    cat *.pem > allcerts.pems
+    openssl pkcs12 -export -nokeys -in allcerts.pems -out truststore.p12 -password pass:password
 
 Keytool import certificate only into keystore:
 

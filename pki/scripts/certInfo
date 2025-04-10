@@ -3,12 +3,27 @@
 # (C) Piter.NL
 #
 # Display X590 certificate info
-#
+# Options: -cn ; show Common Name (CN)
+
 
 if [ -z "$1" ] ; then
    echo "usage: <cert>"
    exit 1
 fi
+
+optInfo=1
+if [ "$2" == "-cn" ] ; then
+  optCn=1
+  optInfo=
+fi
+
+info() {
+ if [ -n "$optInfo" ] ; then
+    echo "$@"
+ fi
+}
+
+file="$1"
 
 parseCert() {
  local certInf="$1"
@@ -19,23 +34,47 @@ parseCert() {
  export EXP=$(echo "$certInf" | grep "Not After" | sed -e "s/.*Not.*After[ ]*: //")
 }
 
-inf=$(openssl x509 -in "$1" -text -noout 2>/dev/null)
-
-echo "inf:$inf"
-
-if [ "$inf" == "" ] ; then
-   inf=$(openssl x509 -inform der -in "$1" -text -noout)
+inf=$(openssl x509 -in "$file" -text -noout 2>/dev/null)
+if [ -z "$inf" ] ; then
+   inf=$(openssl x509 -inform der -in "$1" -text -noout 2>/dev/null)
+   stat="$?"
+   if [ "$stat" == "1" ] ; then
+     inf=""
+   fi
 fi
 
-echo "=== [x509] ==="
-echo "$inf"
+# check private:
+if [ -z "$inf" ] ; then
+  inf=$(openssl rsa -in "$file" -text 2>/dev/null)
+  isKey=1
+  optInfo=
+fi
+
+if [ -z "$inf" ] ; then
+   echo "*** Not a certificate file: $1"
+   exit 1
+fi
+
+info "=== [x509] ==="
+info "$inf"
 
 parseCert "$inf"
-echo "=== [summary] ==="
-echo " - SUBJECT : \"$SUBJ\""
-echo " - ISSUER  : \"$ISS\""
-echo " - CN      : \"$CN\""
-echo " - ISSUED  : \"$DATE\""
-echo " - EXPIRE  : \"$EXP\""
 
+if [ -n "$optInfo" ] ; then
+  info  "=== [summary] ==="
+  info " - SUBJECT : \"$SUBJ\""
+  info " - ISSUER  : \"$ISS\""
+  info " - CN      : \"$CN\""
+  info " - ISSUED  : \"$DATE\""
+  info " - EXPIRE  : \"$EXP\""
+fi
 
+if [ -n "$optCn" ] ; then
+  if [ -n "$isKey" ] ; then
+    echo "<private key>"
+  else
+     echo "${CN}"
+  fi
+fi
+
+#end
