@@ -12,7 +12,7 @@ FILE=
 PWD=
 USEPEMS=
 PEMS=
-CSPLIT=$(which gcsplit && echo gcsplit || echo csplit)
+CSPLIT=$(which gcsplit >/dev/null && echo gcsplit || echo csplit)
 
 if [ "$1" == "-pems" ] ; then
   FILE=

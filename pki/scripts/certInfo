@@ -23,6 +23,8 @@ info() {
  fi
 }
 
+file="$1"
+
 parseCert() {
  local certInf="$1"
  export SUBJ=$(echo "$certInf" | grep "Subject:" | sed "s/.*Subject:[ ]*\(.*\)/\1/")
@@ -32,13 +34,20 @@ parseCert() {
  export EXP=$(echo "$certInf" | grep "Not After" | sed -e "s/.*Not.*After[ ]*: //")
 }
 
-inf=$(openssl x509 -in "$1" -text -noout 2>/dev/null)
+inf=$(openssl x509 -in "$file" -text -noout 2>/dev/null)
 if [ -z "$inf" ] ; then
    inf=$(openssl x509 -inform der -in "$1" -text -noout 2>/dev/null)
    stat="$?"
    if [ "$stat" == "1" ] ; then
      inf=""
    fi
+fi
+
+# check private:
+if [ -z "$inf" ] ; then
+  inf=$(openssl rsa -in "$file" -text 2>/dev/null)
+  isKey=1
+  optInfo=
 fi
 
 if [ -z "$inf" ] ; then
@@ -50,6 +59,7 @@ info "=== [x509] ==="
 info "$inf"
 
 parseCert "$inf"
+
 if [ -n "$optInfo" ] ; then
   info  "=== [summary] ==="
   info " - SUBJECT : \"$SUBJ\""
@@ -60,7 +70,11 @@ if [ -n "$optInfo" ] ; then
 fi
 
 if [ -n "$optCn" ] ; then
-  echo "${CN}"
+  if [ -n "$isKey" ] ; then
+    echo "<private key>"
+  else
+     echo "${CN}"
+  fi
 fi
 
-
+#end
