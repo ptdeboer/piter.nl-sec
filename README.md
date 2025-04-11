@@ -17,6 +17,9 @@ See pki-demo how to setup your own PKI with custom Root CA, Intermediate CA:
 
 - pki/pki-demo
 
+Some certificate utils/scripts:
+
+- pki/scripts
 
 Web TLS (mTLS)
 ---
