@@ -86,28 +86,28 @@ parseCert() {
  if [ "$?" != "0" ] ; then
     fatal "File not found or is not a certificate: $CFILE"
  fi
- SUBJ=$(echo "$CATTR" | grep subject= | sed "s/.*subject=[ ]*\(.*\)/\1/")
- ISS=$(echo "$CATTR" | grep issuer= | sed "s/.*issuer=[ ]*\(.*\)/\1/")
- CN=$(echo "$CATTR" | grep subject= | sed "s/.*CN[ ]*=[ ]*\([^,]*\).*/\1/g")
- DATE=$(echo "$CATTR" | grep notBefore | sed "s/.*notBefore=[ ]*\(.*\)/\1/")
- EXP=$(echo "$CATTR" | grep notAfter | sed "s/.*notAfter=[ ]*\(.*\)/\1/")
- SERIAL=$(echo "$CATTR" | grep serial | sed "s/.*serial=[ ]*\(.*\)/\1/")
- CERTMOD=$(echo "$CATTR" | grep Modulus | sed "s/.*Modulus=[ ]*\(.*\)/\1/")
+ SUBJ=$(echo "$CATTR" | grep 'subject=' | sed "s/.*subject=[ ]*\(.*\)/\1/")
+ ISS=$(echo "$CATTR" | grep 'issuer=' | sed "s/.*issuer=[ ]*\(.*\)/\1/")
+ CN=$(echo "$CATTR" | grep 'subject=' | sed "s/.*CN[ ]*=[ ]*\([^,]*\).*/\1/")
+ DATE=$(echo "$CATTR" | grep 'notBefore=' | sed "s/.*notBefore=[ ]*\(.*\)/\1/")
+ EXP=$(echo "$CATTR" | grep 'notAfter=' | sed "s/.*notAfter=[ ]*\(.*\)/\1/")
+ SERIAL=$(echo "$CATTR" | grep 'serial=' | sed "s/.*serial=[ ]*\(.*\)/\1/")
+ CERTMOD=$(echo "$CATTR" | grep 'Modulus=' | sed "s/.*Modulus=[ ]*\(.*\)/\1/")
 }
 
 getInfo "$CFILE"
 
-info " [x509] "
+info "   [x509]   "
 info "$inf"
 
 parseCert "$inf"
 
 if [ "$isKey" == 1 ] ; then
-   info " [summary] "
+   info "   [summary] "
    info " - <private key>"
    info " - KEY MOD : $KEYMOD"
 else
-   info " [summary] "
+   info "   [summary] "
    info " - SUBJECT  : $SUBJ"
    info " - ISSUER   : $ISS"
    info " - SERIAL   : $SERIAL"
@@ -115,7 +115,7 @@ else
    info " - ISSUED   : $DATE"
    info " - EXPIRE   : $EXP"
    info " - CERT MOD : $CERTMOD"
-   info " [flags] "
+   info "   [flags]   "
    info " - isPem    : $isPem"
    info " - isDer    : $isDer"
    info " - isKey    : $isKey"
