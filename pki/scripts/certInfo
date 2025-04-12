@@ -3,18 +3,38 @@
 # (C) Piter.NL
 #
 # Display X590 certificate info
-# Options: -cn ; show Common Name (CN)
+# Options:
+#   -c | --cn      ; Show Common Name (CN)
+#   -s | --subject ; Show Subject
 
+### Arguments/Options
 
-if [ -z "$1" ] ; then
-   echo "usage: <cert>"
-   exit 1
-fi
-
+OPENSSL=openssl-3
 optInfo=1
-if [ "$2" == "-cn" ] ; then
-  optCn=1
-  optInfo=
+optCN=
+optSubject=
+CFILE=
+isKey=
+isPem=
+isDer=
+
+while getopts f-:c-:s-:d-: opt ; do
+   if [ "$opt" = "-" ]; then # --long opt
+       opt="${OPTARG%%=*}"
+   fi
+   case "${opt}" in
+      c | cn) optCn=1;optInfo=;;
+      s | subject) optSubject=1;optInfo=;;
+      d | dates) optDates=1;optInfo=;;
+   esac
+done
+shift $((OPTIND - 1))
+
+CFILE="$1"
+
+if [ -z "$CFILE" ] ; then
+   echo "usage: [-c | --cn | -s | --subject] <cert>"
+   exit 1
 fi
 
 info() {
@@ -23,58 +43,90 @@ info() {
  fi
 }
 
-file="$1"
-
-parseCert() {
- local certInf="$1"
- export SUBJ=$(echo "$certInf" | grep "Subject:" | sed "s/.*Subject:[ ]*\(.*\)/\1/")
- export ISS=$(echo "$certInf" | grep "Issuer:" | sed "s/.*Issuer:[ ]*\(.*\)/\1/")
- export CN=$(echo "$certInf" | grep "Subject:" | grep CN | sed "s/.*CN[ ]*=[ ]*\([^,]*\).*/\1/g")
- export DATE=$(echo "$certInf" | grep "Not Before" | sed -e "s/.*Not.*Before[ ]*: //")
- export EXP=$(echo "$certInf" | grep "Not After" | sed -e "s/.*Not.*After[ ]*: //")
+fatal() {
+  echo "*** Fatal: $*" >&2
+  exit 1
 }
 
-inf=$(openssl x509 -in "$file" -text -noout 2>/dev/null)
-if [ -z "$inf" ] ; then
-   inf=$(openssl x509 -inform der -in "$1" -text -noout 2>/dev/null)
-   stat="$?"
-   if [ "$stat" == "1" ] ; then
-     inf=""
-   fi
-fi
+getInfo() {
+ # Check PEM format:
+ inf=$($OPENSSL x509 -in "$CFILE" -text -noout 2>/dev/null)
+ isPem=$(($? == 0))
+ INFORM=
 
-# check private:
-if [ -z "$inf" ] ; then
-  inf=$(openssl rsa -in "$file" -text 2>/dev/null)
-  isKey=1
-  optInfo=
-fi
+ if [ -z "$inf" ] ; then
+    # Check DER format:
+    inf=$($OPENSSL x509 -inform der -in "$1" -text -noout 2>/dev/null)
+    isDer=$(($? == 0))
+    if [ "$isDer" == "1" ] ; then
+       INFORM="-inform DER"
+    fi
+ fi
 
-if [ -z "$inf" ] ; then
-   echo "*** Not a certificate file: $1"
-   exit 1
-fi
+ # Check private key:
+ if [ -z "$inf" ] ; then
+    inf=$($OPENSSL rsa -in "$CFILE" -text -noout 2>/dev/null)
+    isKey=$(($? == 0))
+ fi
 
-info "=== [x509] ==="
+ if [ -z "$inf" ] ; then
+    fatal "*** Not a certificate file: $1"
+ fi
+
+}
+
+parseCert() {
+ if [ "$isKey" == 1 ] ; then
+    KATTR=$($OPENSSL rsa -noout -modulus $INFORM -in "$CFILE" 2>/dev/null)
+    KEYMOD=$(echo "$KATTR" | grep Modulus | sed "s/.*Modulus=[ ]*\(.*\)/\1/")
+    return;
+ fi
+
+ CATTR=$($OPENSSL x509 -noout -subject -issuer -dates -dateopt iso_8601 -serial -modulus $INFORM -in "$CFILE" 2>/dev/null)
+ if [ "$?" != "0" ] ; then
+    fatal "File not found or is not a certificate: $CFILE"
+ fi
+ SUBJ=$(echo "$CATTR" | grep subject= | sed "s/.*subject=[ ]*\(.*\)/\1/")
+ ISS=$(echo "$CATTR" | grep issuer= | sed "s/.*issuer=[ ]*\(.*\)/\1/")
+ CN=$(echo "$CATTR" | grep subject= | sed "s/.*CN[ ]*=[ ]*\([^,]*\).*/\1/g")
+ DATE=$(echo "$CATTR" | grep notBefore | sed "s/.*notBefore=[ ]*\(.*\)/\1/")
+ EXP=$(echo "$CATTR" | grep notAfter | sed "s/.*notAfter=[ ]*\(.*\)/\1/")
+ SERIAL=$(echo "$CATTR" | grep serial | sed "s/.*serial=[ ]*\(.*\)/\1/")
+ CERTMOD=$(echo "$CATTR" | grep Modulus | sed "s/.*Modulus=[ ]*\(.*\)/\1/")
+}
+
+getInfo "$CFILE"
+
+info " [x509] "
 info "$inf"
 
 parseCert "$inf"
 
-if [ -n "$optInfo" ] ; then
-  info  "=== [summary] ==="
-  info " - SUBJECT : \"$SUBJ\""
-  info " - ISSUER  : \"$ISS\""
-  info " - CN      : \"$CN\""
-  info " - ISSUED  : \"$DATE\""
-  info " - EXPIRE  : \"$EXP\""
+if [ "$isKey" == 1 ] ; then
+   info " [summary] "
+   info " - <private key>"
+   info " - KEY MOD : $KEYMOD"
+else
+   info " [summary] "
+   info " - SUBJECT  : $SUBJ"
+   info " - ISSUER   : $ISS"
+   info " - SERIAL   : $SERIAL"
+   info " - CN       : $CN"
+   info " - ISSUED   : $DATE"
+   info " - EXPIRE   : $EXP"
+   info " - CERT MOD : $CERTMOD"
+   info " [flags] "
+   info " - isPem    : $isPem"
+   info " - isDer    : $isDer"
+   info " - isKey    : $isKey"
 fi
 
-if [ -n "$optCn" ] ; then
-  if [ -n "$isKey" ] ; then
-    echo "<private key>"
-  else
-     echo "${CN}"
-  fi
+if [ -n "$isKey" ] ; then
+   echo "<private key>"
+else
+   [ -n "$optCn" ] && echo "CN:${CN}"
+   [ -n "$optSubject" ] && echo "subject:${SUBJ}"
+   [ -n "$optDates" ] && echo "notBefore:${DATE}" && echo "notAfter:${EXP}"
 fi
 
-#end
+# end

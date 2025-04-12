@@ -12,6 +12,7 @@ bin/
 stale_outputs_checked
 
 # tmp/backup
+tmp/
 *.swp
 *.swo
 *~

@@ -1,0 +1,37 @@
+#!/bin/bash
+##
+# (C) Piter.NL
+#
+# Convert PEM or DER .crt|.der to .pem
+# Also strips superfluous text before and after "----BEGIN..." certificate headers.
+#
+
+OPENSSL=openssl-3
+
+CFILE="$1"
+
+if [ -z "$2" ] ; then
+   # Replace: *.<ext> with: *-<ext>.pem
+   PEMFILE="$(echo "$CFILE" | sed -r 's/(.*)\./\1\-/').pem"
+else
+   PEMFILE="$2"
+fi
+
+# Check PEM format:
+$OPENSSL x509 -in "$CFILE" -inform pem -outform pem -out "$PEMFILE"
+isPem=$(($? == 0))
+
+if (( isPem != 1 )); then
+   # Check DER format:
+   $OPENSSL x509 -in "$CFILE" -inform der -outform pem -out "$PEMFILE"
+   isDer=$(($? == 0))
+fi
+
+if (( isPem !=1 && isDer != 1)) ; then
+  echo "Neither PEM nor DER: $CFILE"
+  exit 1
+fi
+
+echo "Certificate PEM file: $CFILE -> $PEMFILE"
+
+# end

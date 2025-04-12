@@ -3,42 +3,51 @@
 # (C) Piter.NL
 #
 # Extract certs in p12 store to 'certs/' directory
-# usage: [ <p12file> <paswd> ] | [ -pems certificates.pems ]
+# Usage: <p12file> [ <passwd> ] | -p|--pems certificates.pem[s]
 #
 
-# Arguments:
+### Arguments/Options
 
 FILE=
 PWD=
 USEPEMS=
 PEMS=
-CSPLIT=$(which gcsplit >/dev/null && echo gcsplit || echo csplit)
+CSPLIT=$(which gcsplit 1>/dev/null 2>&1 && echo gcsplit || echo csplit)
 
-if [ "$1" == "-pems" ] ; then
-  FILE=
-  PWD=
-  PEMS="$2"
-  USEPEMS=1
-  if [ -z "$PEMS" ] ; then
-    echo "usage: -pems <pemsFile>"
-  exit 1
-  fi
-else
-  USEPEMS=
-  PEMS=
+while getopts f:p-: opt ; do
+   if [ "$opt" = "-" ]; then # --long opt
+       opt="${OPTARG%%=*}"
+       arg="${OPTARG#"$OPT"}" # argument
+   fi
+   case "${opt}" in
+      p | pems) FILE=;PWD=;PEMS=$arg;USEPEMS=1;;
+   esac
+done
+shift $((OPTIND - 1))
+
+if [ "$USEPEMS" != "1" ] ; then
   FILE="$1"
   PWD="$2"
-  if [ -z "$PWD" ] ; then
-     echo "usage: <p12> <password>"
+  if [ -n "$PWD" ] ; then
+     PASSOPT="-passin pass:$PWD"
+  fi
+  if [ -z "$FILE" ] ; then
+     echo "usage: <p12> [ <password> ] | -p | --pems <pemfile>"
      exit 1
   fi
 fi
 
-# Parameters:
+### Parameters:
+
 OUT=certs
 P12OUT="${OUT}/pk12certs.pems"
 KEYOUT="${OUT}/private-key.pem"
 CERT_PREFIX=cert_
+
+fatal() {
+  echo "*** Fatal: $*" >&2
+  exit 1
+}
 
 # Init
 mkdir -vp "$OUT"
@@ -47,14 +56,13 @@ mkdir -vp "$OUT"
 if [ -z "$USEPEMS" ] ; then
   echo " - certfile : $FILE"
   echo " - outdir   : $OUT"
-  openssl pkcs12 -nokeys -in "$FILE" -info -passin "pass:$PWD" |\
-  sed -n "/-----BEGIN CERTIFICATE-----/,/-----END CERTIFICATE-----/{p;}" > "$P12OUT"
+  pems=$(openssl pkcs12 -nokeys -in "$FILE" -info $PASSOPT) || fatal "Invalid password or not a key/truststore: $FILE"
+  echo "$pems" | sed -n "/-----BEGIN CERTIFICATE-----/,/-----END CERTIFICATE-----/{p;}" > "$P12OUT"
 
   # privates:
-  openssl pkcs12 -in "$FILE" -out "${KEYOUT}" -nodes -nocerts -passin "pass:$PWD"
-
+  openssl pkcs12 -in "$FILE" -out "${KEYOUT}" -nodes -nocerts $PASSOPT
 else
-  cp -vf $PEMS $P12OUT
+   cp -vf $PEMS $P12OUT
 fi
 
 # csplit: Note: first cert_00 file contains empty space:
@@ -65,10 +73,11 @@ rm -vf ${OUT}/${CERT_PREFIX}00.pem
 # certInfo:
 echo " - certs: "$(ls $OUT/*.pem)
 
-for f in $(cd "$OUT"; ls *.pem) ; do
-    BASE=$(echo $f | sed "s/.pem//")
+for CFILE in $(cd "$OUT"; ls *.pem) ; do
+    BASE=$(echo $CFILE | sed "s/.pem//")
     OUTFILE="${OUT}/${BASE}.txt"
-    echo " - $OUTFILE : $(certInfo "$OUT/$f" -cn)"
-    certInfo "$OUT/$f" > "$OUTFILE"
+    echo " - $OUT/$CFILE : '$(certInfo --cn "$OUT/$CFILE")'"
+    certInfo "$OUT/$CFILE" > "$OUTFILE"
 done
 
+# end

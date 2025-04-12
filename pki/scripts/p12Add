@@ -4,25 +4,37 @@
 #
 # Add certs to new or existing p12.
 
-# Arguments:
+### Arguments:
 
 P12="$1"
 shift
-PASS="$1"
-shift
+if [ "$1" == "-p" ] ; then
+  shift
+  PASS="$1"
+  PASSOPT="-passin pass:$PASS"
+  PASSOUT="-passout pass:$PASS"
+  shift
+fi
+
 CERTS="$@"
 
 if [ -z "$CERTS" ] ; then
-    echo "usage: <p12> <password> <cert> [ <certs...> ]; <cert> or <certs> can be list of file or wildcard: cert/*.pem"
+    echo "usage: <p12> [-p <password>] <cert> [ <certs...> ]; <cert> or <certs> can be list of files or wildcard: cert/*.pem"
     exit 1
 fi
 
-### derived
+### Derived
+
 CERTDIR="certs"
 P12NEW=$(echo "$P12" | sed "s/\.p12/-new.p12/")
 PASSFILE=$(echo "$P12" | sed "s/\.p12/-password.txt/")
 
-# switch
+fatal() {
+  echo "*** Fatal: $*" >&2
+  exit 1
+}
+
+### switch
 
 if [ -f ${P12} ]  ; then
    echo "Use existing certstore [yY/nN]: $P12"
@@ -43,16 +55,15 @@ echo " - pass       :'${PASS}'"
 echo " - CERT       :'${CERTS}'"
 echo " - CERTDIR    :'${CERTDIR}'"
 
-
 mkdir -pv "${CERTDIR}"
 
 if [ -f "$P12" ] ; then
-  p12Extract "$P12" "$PASS"
+  p12Extract "$P12" "$PASS" || fatal "Failed to extract key/truststore:$P12"
 else
   echo " - Skipping extracting: no existing: $P12"
 fi
 
-# Add new certs:
+### Add new certs:
 
 certFiles=`ls $CERTS`
 for f in $certFiles ; do
@@ -71,9 +82,10 @@ if [ "$ans" != "y" ] && [ "$ans" != "Y" ] ; then
 	exit 1
 fi
 
-openssl pkcs12 -export -nokeys -in "${CERTDIR}/allcerts.pemz" -out "$P12NEW" -password "pass:$PASS"
+openssl pkcs12 -export -nokeys -in "${CERTDIR}/allcerts.pemz" $PASSOUT -out "$P12NEW" || fatal "Failed to create new keystore:$P12NEW"
 echo "$PASS" > $PASSFILE
 
 echo " - Created: $P12NEW"
 echo " - Created: $PASSFILE"
 
+# end

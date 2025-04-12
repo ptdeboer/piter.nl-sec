@@ -42,6 +42,7 @@ You can check the version with:
 
     openssl version
 
+
 Show/Dump
 ---
 
@@ -61,6 +62,14 @@ Dump PRIVATE key: Note prints out *only* RSA modulo info, no metadata is contain
 
     openssl rsa -in privkey.key -text
     openssl rsa -in privkey.pem -text
+
+Show selection of certificate attributes:
+
+    openssl x509 -noout -subject -issuer -dates -serial -in cert.pem
+
+Use ISO-8601 date option (needs openssl-3):
+
+    openssl-3 x509 -noout -subject -issuer -dates -dateopt iso_8601 -serial -in cert.pem
 
 
 List Keystore
@@ -110,6 +119,7 @@ Extract _public_ SSH-RSA key from _private_ RSA (PEM format):
 Or use ssh-keygen: Extract _public_ SSH-RSA key from _private_ SSH-RSA:
 
     ssh-keygen -y -f id_rsa > id_rsa.pub
+
 
 Extract private key + certs from p12 (pfx)
 ---
@@ -166,6 +176,7 @@ Import/add trust cert (pem) to existing p12 keystore (keytool only):
 	# using p12 as destination (optionally provide passwd):
 	keytool -import -keystore truststore.p12 -alias newca -file cacert.pem
 	keytool -import -keystore truststore.p12 -alias newca -file cacert.pem -storepass passwd
+
 
 Verify/Compare
 ---
