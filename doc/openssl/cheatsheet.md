@@ -72,7 +72,7 @@ Use ISO-8601 date option (needs openssl-3):
     openssl-3 x509 -noout -subject -issuer -dates -dateopt iso_8601 -serial -in cert.pem
 
 
-List Keystore
+List/Manage Keystore
 ---
 
 List keystore (keytool)
@@ -83,7 +83,15 @@ List trusted certificates from p12 (openssl):
 
     openssl pkcs12 -nokeys -in trusstore.p12 -info
     openssl pkcs12 -nokeys -in truststore.p12 -info -passin pass:passwd
+
+List certs using keytool:
+
+    keytool -list -v  -keystore truststore.p12 -storepass changeit -storetype PKCS12
     
+Change password (keytool):
+
+    keytool -keystore truststore.p12 -storepasswd
+
 
 Convert DER, PEM, etc.
 ---
@@ -120,6 +128,10 @@ Or use ssh-keygen: Extract _public_ SSH-RSA key from _private_ SSH-RSA:
 
     ssh-keygen -y -f id_rsa > id_rsa.pub
 
+Extract public key only from certificate:
+
+    openssl x509 -pubkey -noout -in cert.pem  > pubkey.pem
+
 
 Extract private key + certs from p12 (pfx)
 ---
@@ -151,13 +163,14 @@ Combine/import into PKCS#12: a public PEM certificate file, CA certificate(s) an
 Import/create certificate (pem) only into new p12 using openssl:
 
     openssl pkcs12 -export -nokeys -in certificate.pem -out truststore.p12 -password pass:password
+    openssl pkcs12 -export -nokeys -in certificate.pem -out truststore.p12 -name cert-alias -password pass:password
 
 Combine mutiple cert files (pem) into single truststore using openssl:
 
     cat *.pem > allcerts.pems
     openssl pkcs12 -export -nokeys -in allcerts.pems -out truststore.p12 -password pass:password
 
-Keytool import certificate only into keystore:
+Keytool import certificate only into keystore/add (single) certificate to p12 truststore:
 
     keytool -import -alias root-ca -keystore trusted-ca.ts.p12 -file root-ca.crt
     keytool -import -alias intermediate-ca -keystore trusted-ca.ts.p12 -file intermediate-ca.crt
@@ -169,13 +182,20 @@ OpenSSL doesn't work:
 
 __NOTE: openssl cannot/willnot import trustcerts without matching privatekey. Above will not work.__
 
+
+Add list of certifictes into a *new* truststore:
+
+    cat *.pem > allcerts.pems
+    openssl pkcs12 -export -nokeys -in allcerts.pems  -out truststore-new.p12 -password pass:password
+
+
 Import/add trust cert (pem) to existing p12 keystore (keytool only):
 	
     keytool -import -keystore keystore.jks -alias newca -file cacert.pem
 	
-	# using p12 as destination (optionally provide passwd):
-	keytool -import -keystore truststore.p12 -alias newca -file cacert.pem
-	keytool -import -keystore truststore.p12 -alias newca -file cacert.pem -storepass passwd
+    # using p12 as destination (optionally provide passwd):
+    keytool -import -keystore truststore.p12 -alias newca -file cacert.pem
+    keytool -import -keystore truststore.p12 -alias newca -file cacert.pem -storepass passwd
 
 
 Verify/Compare
