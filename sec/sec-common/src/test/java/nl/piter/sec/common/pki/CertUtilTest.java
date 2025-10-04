@@ -9,7 +9,9 @@ import org.junit.jupiter.api.Test;
 
 import javax.naming.NamingException;
 import javax.naming.ldap.Rdn;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 

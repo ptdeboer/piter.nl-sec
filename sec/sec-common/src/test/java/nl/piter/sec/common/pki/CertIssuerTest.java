@@ -104,12 +104,13 @@ public class CertIssuerTest {
         assertThat(CertUtil.parseRDN(cert.getIssuerX500Principal().getName(), true)).isEqualTo(CertUtil.parseRDN(issuerDN, true));
     }
 
-    @Test// Example for JavaDoc:
+    @Test
+// Example for JavaDoc:
     void docExample() throws InvalidNameException, NoSuchAlgorithmException, CertificateException, IOException, SignatureException, OperatorCreationException, InvalidKeyException, NoSuchProviderException {
         CertIssuer.CertificateKeyPair certkeyPair = new CertIssuer()
                 .rootCA("CN=my-self-signed-cert,O=test-env", true)
                 .selfSign();
-        X509Certificate cert=certkeyPair.publicCertificate();
+        X509Certificate cert = certkeyPair.publicCertificate();
         KeyPair keyPair = certkeyPair.keyPair();
         //
         assertThat(cert).isNotNull();
@@ -123,7 +124,7 @@ public class CertIssuerTest {
                 .rootCA(issuerDN, true)
                 .selfSign();
 
-        CertUtil.saveCert(Paths.get("/tmp/rootca.crt"),certkeyPair.publicCertificate());
+        CertUtil.saveCert(Paths.get("/tmp/rootca.crt"), certkeyPair.publicCertificate());
     }
 
     private static void logCertificateAttrs(X509Certificate cert) throws CertificateParsingException {
@@ -131,7 +132,7 @@ public class CertIssuerTest {
         attrMap.entrySet()
                 .stream()
                 .forEach(entry ->
-                        log.info(" - attr: {} = '{}'", paddRight("'" + entry.getKey().toString() + "'", 18), entry.getValue()));
+                        log.info(" - attr: {} = '{}'", paddRight("'" + entry.getKey() + "'", 18), entry.getValue()));
     }
 
 }
