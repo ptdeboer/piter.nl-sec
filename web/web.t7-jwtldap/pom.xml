@@ -7,7 +7,7 @@
     <groupId>nl.piter.web</groupId>
     <artifactId>web.t7-jwtldap</artifactId>
     <version>0.1.0-SNAPSHOT</version>
-    <name>web.t7-jwtldap [web]</name>
+    <name>nl.piter.web:web.t7-jwtldap [web] T7 JWT and LDAP</name>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

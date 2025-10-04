@@ -7,7 +7,7 @@
     <groupId>nl.piter.web</groupId>
     <artifactId>web-parent</artifactId>
     <version>1.0.1-SNAPSHOT</version>
-    <name>web.parent [web]</name>
+    <name>nl.piter.web:web.parent [web] Parent</name>
 
     <!-- Web Parent: meta project -->
     <modules>

@@ -12,5 +12,6 @@
     </parent>
 
     <artifactId>t7-jwtldap-ui</artifactId>
+    <name>nl.piter.web:t7-jwtldap-ui [web]</name>
 
 </project>

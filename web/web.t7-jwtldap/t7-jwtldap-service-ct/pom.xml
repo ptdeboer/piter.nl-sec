@@ -12,6 +12,7 @@
     </parent>
 
     <artifactId>t7-jwtldap-service-ct</artifactId>
+    <name>nl.piter.web:t7-jwtldap-service-ct [web]</name>
 
     <properties>
         <cucumber.java.version>7.14.0</cucumber.java.version>

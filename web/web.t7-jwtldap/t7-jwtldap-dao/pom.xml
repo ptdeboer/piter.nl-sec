@@ -12,6 +12,7 @@
     </parent>
 
     <artifactId>t7-jwtldap-dao</artifactId>
+    <name>nl.piter.web:t7-jwtldap-dao [web]</name>
 
     <build>
         <plugins>

@@ -13,6 +13,7 @@
     </parent>
 
     <artifactId>t6-tls-service-test</artifactId>
+    <name>nl.piter.web:t6-tls-service-test [web]</name>
 
     <dependencies>
         <!-- Project -->

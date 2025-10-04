@@ -1,4 +1,4 @@
-/* (C-left) 2015-2024 Piter.NL - Free of use, but keep this header.
+/* (C-left) 2015-2025 Piter.NL - Free of use, but keep this header.
  * See LICENSE.txt for more details.
  */
 //

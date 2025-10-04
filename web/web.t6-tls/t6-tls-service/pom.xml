@@ -5,6 +5,7 @@
     <packaging>jar</packaging>
 
     <artifactId>t6-tls-service</artifactId>
+    <name>nl.piter.web:t6-tls-service [web]</name>
 
     <parent>
         <groupId>nl.piter.web</groupId>

@@ -12,6 +12,7 @@
     </parent>
 
     <artifactId>t7-jwtldap-service-ft</artifactId>
+    <name>nl.piter.web:t7-jwtldap-service-ft [web]</name>
 
     <build>
         <plugins>

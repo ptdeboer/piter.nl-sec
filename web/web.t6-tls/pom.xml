@@ -7,7 +7,7 @@
     <groupId>nl.piter.web</groupId>
     <artifactId>web.t6-tls</artifactId>
     <version>1.0.1-SNAPSHOT</version>
-    <name>web.t6-tls [web]</name>
+    <name>nl.piter.web:web.t6-tls [web] T6 TLS</name>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
