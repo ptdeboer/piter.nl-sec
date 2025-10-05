@@ -25,8 +25,8 @@ public class SubjectX509PrincipalExtractor implements X509PrincipalExtractor {
      */
     @Override
     public String extractPrincipal(X509Certificate clientCert) {
-        CertUtil.certUtil().logCertInfo(log, clientCert);
-        return CertUtil.certUtil().extractCN(clientCert);
+        CertUtil.logCertInfo(log, clientCert);
+        return CertUtil.extractCN(clientCert);
     }
 
 }

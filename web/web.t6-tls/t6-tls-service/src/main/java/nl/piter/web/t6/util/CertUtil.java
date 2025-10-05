@@ -20,23 +20,10 @@ import java.util.List;
 import java.util.Optional;
 
 @Slf4j
-// Do not autowire, so it can be used during (pre)initialization stage during for example Spring startup.
+// Do not autowire so it can be used during the (pre)initialization stage of for example Spring Boot.
 public class CertUtil {
 
-    private static CertUtil instance;
-
-    public static CertUtil certUtil() {
-        // Lazy init:
-        if (instance == null) {
-            instance = new CertUtil();
-        }
-        return instance;
-    }
-
-    private CertUtil() {
-    }
-
-    public String extractCN(X509Certificate clientCert) {
+    public static String extractCN(X509Certificate clientCert) {
         final X500Principal principle = clientCert.getSubjectX500Principal();
         log.debug("x509Principle name: {}", principle.getName());
 
@@ -63,7 +50,7 @@ public class CertUtil {
         return optCN.get().getValue().toString();
     }
 
-    public void logCertInfo(Logger log, X509Certificate cert) {
+    public static void logCertInfo(Logger log, X509Certificate cert) {
         log.info("cert.subject   : '{}' (serial:#{})", cert.getSubjectX500Principal().getName(), cert.getSerialNumber());
         log.info("cert.issuer    : '{}'", cert.getIssuerX500Principal().getName());
         log.info("cert.notBefore : '{}'", cert.getNotBefore());
