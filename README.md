@@ -15,11 +15,11 @@ PKI
 Public Key Infrastructere (PKI) examples.\
 See pki-demo how to setup your own PKI with custom Root CA, Intermediate CA:
 
-- pki/pki-demo
+- demos/pki-demo
 
 Some certificate utils/scripts:
 
-- pki/scripts
+- scripts
 
 Web TLS (mTLS)
 ---

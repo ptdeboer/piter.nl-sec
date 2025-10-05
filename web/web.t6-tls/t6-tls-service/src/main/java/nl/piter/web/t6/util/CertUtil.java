@@ -20,7 +20,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Slf4j
-// Not autowired so it can be used during pre-configuration stage:
+// Do not autowire, so it can be used during (pre)initialization stage during for example Spring startup.
 public class CertUtil {
 
     private static CertUtil instance;

@@ -5,9 +5,9 @@
     <packaging>pom</packaging>
 
     <groupId>nl.piter.sec</groupId>
-    <artifactId>sec-common-parent</artifactId>
+    <artifactId>sec-pki-parent</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>nl.piter.sec:sec-common-parent [sec] Sec Common Parent</name>
+    <name>nl.piter.sec:sec-pki-parent [sec] Sec PKI Parent</name>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

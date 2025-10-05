@@ -1,0 +1,34 @@
+/* ----------------------------------------------------------------------------
+ * (C-left) 2015-2025 Piter.NL - Free of use, but keep this header.
+ * https://www.piter.nl/github
+ * See LICENSE.txt for more details.
+ * ----------------------------------------------------------------------------
+ */
+//
+package nl.piter.sec.pki;
+
+import lombok.extern.slf4j.Slf4j;
+import org.junit.jupiter.api.Test;
+
+import javax.naming.NamingException;
+import javax.naming.ldap.Rdn;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+
+@Slf4j
+public class CertUtilTest {
+
+    @Test
+    void parseSubjectDN() throws NamingException {
+        List<Rdn> list = CertUtil.parseRDN("CN=hello-world,O=organization,OU=organizational-unit,C=FRL", false);
+        list.forEach(el -> log.info(" - entry: '{}': '{}'", el.getType(), el.getValue()));
+        List<String> names = new ArrayList(list.stream().map(rdn -> rdn.getType()).toList());
+        assertThat(names.size()).isEqualTo(4);
+        // Check whether unsorted RDN order matches reverse order of actual SubjectDN:
+        assertThat(names.reversed()).isEqualTo(Arrays.asList("CN", "O", "OU","C"));
+    }
+
+}
