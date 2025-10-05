@@ -5,9 +5,9 @@
     <packaging>pom</packaging>
 
     <groupId>nl.piter.sec</groupId>
-    <artifactId>sec-pki-parent</artifactId>
+    <artifactId>sec-parent</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>nl.piter.sec:sec-pki-parent [sec] Sec PKI Parent</name>
+    <name>nl.piter.sec:sec-parent [sec] Sec Parent</name>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -15,11 +15,6 @@
         <maven.build.timestamp.format>yyyy-MM-dd HH:mm:ss.SSS</maven.build.timestamp.format>
         <java.version>21</java.version>
     </properties>
-
-    <modules>
-        <module>sec-common</module>
-        <module>web</module>
-    </modules>
 
     <build>
         <pluginManagement>
