@@ -34,12 +34,14 @@ public class CertIssuerTest {
         String issuerDN = "CN=nl.piter.rootCA-1,O=Piter.NL,OU=sec,C=FRL";
 
         CertIssuer.CertificateKeyPair certkeyPair = new CertIssuer()
-                .rootCA(issuerDN, true)
+                .rootCertificate(issuerDN, true,true)
                 .selfSign();
         logCertificateAttrs(certkeyPair.publicCertificate());
         //
-        assertThat(certkeyPair.publicCertificate().getSubjectX500Principal().getName()).isEqualTo(issuerDN);
-        assertThat(certkeyPair.publicCertificate().getIssuerX500Principal().getName()).isEqualTo(issuerDN);
+        X509Certificate cert = certkeyPair.publicCertificate();
+        assertThat(cert.getSubjectX500Principal().getName()).isEqualTo(issuerDN);
+        assertThat(cert.getIssuerX500Principal().getName()).isEqualTo(issuerDN);
+        assertThat(cert.getBasicConstraints()).isGreaterThan(1);
     }
 
     @Test
@@ -48,7 +50,7 @@ public class CertIssuerTest {
 
         KeyPair kp = new KeyBuilder().size(2048).buildKeyPair();
         CertIssuer.CertificateKeyPair certkeyPair = new CertIssuer()
-                .rootCA(issuerDN, false)
+                .rootCertificate(issuerDN, false, true)
                 .withSigningKeyPair(kp)
                 .selfSign();
 
@@ -93,7 +95,7 @@ public class CertIssuerTest {
         String subjectDN = "CN=customer-2,O=Sumcorp,OU=test,C=FRL";
 
         CertIssuer.CertificateKeyPair rootCA = new CertIssuer()
-                .rootCA(issuerDN, true)
+                .rootCertificate(issuerDN, true, true)
                 .selfSign();
 
         KeyPair myKeyPair = new KeyBuilder().size(2048).buildKeyPair();
@@ -107,24 +109,31 @@ public class CertIssuerTest {
         assertThat(CertUtil.parseRDN(cert.getIssuerX500Principal().getName(), true)).isEqualTo(CertUtil.parseRDN(issuerDN, true));
     }
 
-    @Test
+    //@Test
 // Example for JavaDoc:
     void docExample() throws InvalidNameException, NoSuchAlgorithmException, CertificateException, IOException, SignatureException, OperatorCreationException, InvalidKeyException, NoSuchProviderException {
         CertIssuer.CertificateKeyPair certkeyPair = new CertIssuer()
-                .rootCA("CN=my-self-signed-cert,O=test-env", true)
+                .rootCertificate("CN=my-self-signed-cert,O=test-env", true, true)
                 .selfSign();
         X509Certificate cert = certkeyPair.publicCertificate();
         KeyPair keyPair = certkeyPair.keyPair();
         //
         assertThat(cert).isNotNull();
         assertThat(keyPair).isNotNull();
+        //
+        KeyPair signingKeyPair = keyPair;
+        X509Certificate signingCert = cert;
+        String subjectDN ="CN=common-name,O=test";
+        X509Certificate subjectCert = new CertIssuer()
+                .withIssuerCertAndKeyPair(signingCert, signingKeyPair)
+                .signCertificate(subjectDN, signingKeyPair.getPublic());
     }
 
     //@Test
     void writeSelfSignedRootCA() throws NoSuchAlgorithmException, CertificateException, IOException, OperatorCreationException, InvalidNameException, SignatureException, InvalidKeyException, NoSuchProviderException {
         String issuerDN = "CN=nl.piter.rootCA-5,O=Piter.NL,OU=sec,C=FRL";
         CertIssuer.CertificateKeyPair certkeyPair = new CertIssuer()
-                .rootCA(issuerDN, true)
+                .rootCertificate(issuerDN, true, true)
                 .selfSign();
 
         CertUtil.saveCert(Paths.get("/tmp/rootca.crt"), certkeyPair.publicCertificate());

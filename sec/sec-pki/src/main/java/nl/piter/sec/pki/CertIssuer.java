@@ -31,13 +31,22 @@ import static nl.piter.sec.pki.BCInitializer.BOUNCY_CASTLE_PROVIDER_NAME;
 
 /**
  * Minimalistic Certificate Issuer for testing environments.<br>
- * To create a minimal self-signed (root) Certificate  with Public/Private Keypair, do for example:
+ * To create a minimal self-signed (root) Certificate with Public/Private Keypair, do for example:
  * <pre>
- * CertIssuer.CertificateKeyPair certkeyPair = new CertIssuer()
- *    .rootCA("CN=my-self-signed-cert,O=test-env", true)
- *    .selfSign();
- * X509Certificate cert=certkeyPair.publicCertificate();
- * KeyPair keyPair = certkeyPair.keyPair();
+ *  CertIssuer.CertificateKeyPair certkeyPair = new CertIssuer()
+ *     .rootCertificate("CN=my-self-signed-cert,O=test-env", true, true)
+ *     .selfSign();
+ *  X509Certificate cert=certkeyPair.publicCertificate();
+ *  KeyPair keyPair = certkeyPair.keyPair();
+ * </pre>
+ * To create a certificate using existing (Root) CA do for example:
+ * <pre>
+ *  KeyPair signingKeyPair = ...
+ *  X509Certificate signingCert = ...
+ *  String subjectDN ="CN=common-name,O=test";
+ *  X509Certificate subjectCert = new CertIssuer()
+ *      .withIssuerCertAndKeyPair(signingCert, signingKeyPair)
+ *      .signCertificate(subjectDN, signingKeyPair.getPublic());
  * </pre>
  */
 @Getter
@@ -49,7 +58,7 @@ public class CertIssuer {
     private String issuerDN;
     private String signatureAlgorithm = "SHA256WithRSA";
     // Certificate
-    private boolean isRoot = false;
+    private boolean isCA = false;
     private String subjectDN;
     private Date notBeforeDate;
     private Date notAfterDate;
@@ -61,12 +70,12 @@ public class CertIssuer {
     /**
      * Fill in all minimal required attributes for a self-signed (Root CA) Certificate.
      */
-    public CertIssuer rootCA(String subjectDN, boolean autoGenerateKeyPair) throws NoSuchAlgorithmException, InvalidNameException {
+    public CertIssuer rootCertificate(String subjectDN, boolean autoGenerateKeyPair, boolean isCA) throws NoSuchAlgorithmException, InvalidNameException {
         long now = System.currentTimeMillis();
         this.withSubjectDN(subjectDN);
         this.withIssuerDN(subjectDN);
         this.notBeforeDate = new Date(now);
-        this.isRoot = true;
+        this.isCA = isCA;
         this.lifetimeInYears = 10;
         this.certSerialNumber = new BigInteger(Long.toString(now));
         if (autoGenerateKeyPair) {
@@ -85,9 +94,10 @@ public class CertIssuer {
         return this;
     }
 
-    public CertIssuer withIssuerCertAndKeyPair(X509Certificate issuerCert, KeyPair issuerKeyPair) {
+    public CertIssuer withIssuerCertAndKeyPair(X509Certificate issuerCert, KeyPair issuerKeyPair) throws CertificateException, NoSuchAlgorithmException, SignatureException, InvalidKeyException, NoSuchProviderException {
         this.issuerDN = issuerCert.getSubjectX500Principal().getName();
         this.signingKeypair = issuerKeyPair;
+        issuerCert.verify(issuerKeyPair.getPublic());
         new CertVerifier(issuerCert).matchesPublicKey(issuerKeyPair.getPublic());
         return this;
     }
@@ -174,7 +184,7 @@ public class CertIssuer {
                 _subjectPrincipal,
                 _subjectPubKey);
 
-        if (isRoot) {
+        if (isCA) {
             // is CA:
             BasicConstraints basicConstraints = new BasicConstraints(65536);
             certificateBuilder.addExtension(Extension.basicConstraints, true, basicConstraints);
