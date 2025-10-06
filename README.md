@@ -21,6 +21,14 @@ Some certificate utils/scripts:
 
 - scripts
 
+
+PKI Certificate Issuer
+---
+Java Implemention to create signed Certificates for test environments.
+
+- sec/sec-pki => nl.piter.sec:sec-pki
+
+
 Web TLS (mTLS)
 ---
 
@@ -37,4 +45,3 @@ Spring boot with JWT and LDAP example:
 - web/web.t7-jwtldap => nl.piter.web:web.t7-jwtldap
 
 The used JWT tokens above are based on server-side secrets. No PKI example (yet).
-

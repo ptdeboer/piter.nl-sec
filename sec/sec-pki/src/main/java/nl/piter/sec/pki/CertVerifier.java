@@ -21,7 +21,10 @@ public class CertVerifier {
         this.x509cert = cert;
     }
 
-    public boolean matchesPublicKey(PublicKey issuerPK) {
+    /**
+     * Verifies whether certificate is signed with a private key that matches Issuer's Public Key.
+     */
+    public boolean verifyIssuer(PublicKey issuerPK) {
         try {
             x509cert.verify(issuerPK);
             return true;

@@ -28,7 +28,7 @@ public class CertUtilTest {
         List<String> names = new ArrayList(list.stream().map(rdn -> rdn.getType()).toList());
         assertThat(names.size()).isEqualTo(4);
         // Check whether unsorted RDN order matches reverse order of actual SubjectDN:
-        assertThat(names.reversed()).isEqualTo(Arrays.asList("CN", "O", "OU","C"));
+        assertThat(names).isEqualTo(Arrays.asList("CN", "O", "OU","C").reversed());
     }
 
 }

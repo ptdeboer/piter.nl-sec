@@ -98,7 +98,7 @@ public class CertIssuer {
         this.issuerDN = issuerCert.getSubjectX500Principal().getName();
         this.signingKeypair = issuerKeyPair;
         issuerCert.verify(issuerKeyPair.getPublic());
-        new CertVerifier(issuerCert).matchesPublicKey(issuerKeyPair.getPublic());
+        new CertVerifier(issuerCert).verifyIssuer(issuerKeyPair.getPublic());
         return this;
     }
 

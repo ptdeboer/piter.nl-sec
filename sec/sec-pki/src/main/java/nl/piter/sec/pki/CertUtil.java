@@ -52,12 +52,10 @@ final public class CertUtil {
         return list;
     }
 
-    public static void saveCert(Path file, X509Certificate cert) throws IOException {
+    public static void saveCert(Path file, X509Certificate cert) throws IOException, CertificateEncodingException {
         try (OutputStream outps = Files.newOutputStream(file, StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING)) {
             outps.write(cert.getEncoded());
             outps.flush();
-        } catch (IOException | CertificateEncodingException e) {
-            throw new IOException(e.getMessage(), e);
         }
     }
 
