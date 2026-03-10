@@ -165,14 +165,17 @@ Import/create certificate (pem) only into new p12 using openssl:
     openssl pkcs12 -export -nokeys -in certificate.pem -out truststore.p12 -password pass:password
     openssl pkcs12 -export -nokeys -in certificate.pem -out truststore.p12 -name cert-alias -password pass:password
 
-Combine mutiple cert files (pem) into single truststore using openssl:
+Combine multiple cert files (pem) into single truststore using openssl: *)
 
     cat *.pem > allcerts.pems
     openssl pkcs12 -export -nokeys -in allcerts.pems -out truststore.p12 -password pass:password
 
-Keytool import certificate only into keystore/add (single) certificate to p12 truststore:
+*) Might not work in Java, expects keytool use of 'aliases'. See below:
 
-    keytool -import -alias root-ca -keystore trusted-ca.ts.p12 -file root-ca.crt
+Use keytool to import certificates only into JAVA compatible keystore or add (single) certificate to p12 truststore.
+Note: must use '-alias' option for JKS compatibilty.
+
+    keytool -import -alias root-ca -keystore trusted-ca.ts.p12 -file root-ca.crt -storepass password
     keytool -import -alias intermediate-ca -keystore trusted-ca.ts.p12 -file intermediate-ca.crt
     keytool -importcert -storetype PKCS12 -keystore root-ca.ts.p12 -storepass password -alias root-ca -file keys/root-ca.crt -noprompt
 
@@ -286,7 +289,8 @@ ASN1 Parse
 ---
 ASN1Parse option. Note: cert file may not have text before "-----BEGIN..."
 
-    openssl asn1parse cert.pem
+    openssl asn1parse cert.crt
+    openssl asn1parse -inform PEM -in cert.pem
     openssl asn1parse -inform DER -in cert.der
 
 
