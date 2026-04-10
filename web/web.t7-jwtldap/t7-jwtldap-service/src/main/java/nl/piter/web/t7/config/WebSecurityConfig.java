@@ -23,7 +23,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-import static org.springframework.security.web.util.matcher.AntPathRequestMatcher.antMatcher;
 
 /**
  * Enable Security and configure Json Web Token (JWT) based Authentication Manager.
@@ -76,19 +75,20 @@ public class WebSecurityConfig {
                     .sessionManagement((session) -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                     // DEMO: To allow X-Frames for h2-console: disable frame options.
                     .headers((headers) -> headers.frameOptions(frameOptionsConfig -> frameOptionsConfig.disable()))
+
                     .authorizeHttpRequests((authorize) -> authorize
                             // public info:
-                            .requestMatchers(antMatcher("/ping")).permitAll()
-                            .requestMatchers(antMatcher("/info/**")).permitAll()
-                            .requestMatchers(antMatcher("/login/**")).permitAll()
+                            .requestMatchers("/ping").permitAll()
+                            .requestMatchers("/info/**").permitAll()
+                            .requestMatchers("/login/**").permitAll()
                             // Make sure to protect used REST apis:
                             // DEMO: h2 interface, but restrict access:
-                            .requestMatchers(antMatcher("/h2-console/**")).authenticated()
-                            .requestMatchers(antMatcher("/api/**")).authenticated()
-                            .requestMatchers(antMatcher("/data/**")).authenticated()
+                            .requestMatchers("/h2-console/**").authenticated()
+                            .requestMatchers("/api/**").authenticated()
+                            .requestMatchers("/data/**").authenticated()
                             // Allow static webpage, but only at top-level (non-recursive) !
-                            .requestMatchers(antMatcher("/*")).permitAll()
-                            .requestMatchers(antMatcher(HttpMethod.OPTIONS, "/**")).permitAll()
+                            .requestMatchers("/*").permitAll()
+                            .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                             .anyRequest().authenticated()
                     );
 

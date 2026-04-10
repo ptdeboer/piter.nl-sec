@@ -96,7 +96,7 @@ public class WebAppT6SpringIT {
             log.debug("BODY    : {}", response.getBody());
             fail("Unauthorized HTTPS call must result in error.");
         } catch (HttpClientErrorException e) {
-            assertThat(e.getRawStatusCode()).isEqualTo(403);
+            assertThat(e.getStatusCode().value()).isEqualTo(403);
             log.debug("Got expected Http Exception: {}", e.getMessage());
         }
     }

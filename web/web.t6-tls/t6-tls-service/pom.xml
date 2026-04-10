@@ -55,7 +55,7 @@
                 <!-- Maven Spring Boot -->
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
-                <version>${spring-boot.version}</version>
+                <version>${spring.boot-version}</version>
                 <executions>
                     <execution>
                         <!-- Use '-exec' attachment to distinguish from 'pure' jar and war artifacts -->
