@@ -40,7 +40,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 @SpringBootTest(classes = {WebAppT7.class}, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class T7WebAppSpringIT {
 
-
     @ToString
     public static class AuthRequest {
         public String username;
@@ -107,7 +106,6 @@ public class T7WebAppSpringIT {
         JwtToken token = response.getBody();
         log.debug("Token = {}", token);
         assertThat(token.token).isNotNull();
-
     }
 
     @Test
