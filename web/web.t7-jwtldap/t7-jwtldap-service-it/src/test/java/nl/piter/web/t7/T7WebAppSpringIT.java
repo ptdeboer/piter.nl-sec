@@ -1,8 +1,8 @@
 /* ----------------------------------------------------------------------------
- * (C-left) 2015-2025 Piter.NL - Free of use, but keep this header.
+ * (C-Left) 2015-2026 Piter.NL - Free of use, but keep this header.
  * https://www.piter.nl/github
- * See LICENSE.txt for more details.
  * ----------------------------------------------------------------------------
+ * (See LICENSE.txt for more details)
  */
 //
 package nl.piter.web.t7;
@@ -39,7 +39,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_CLASS) // for data.sql initialization
 @SpringBootTest(classes = {WebAppT7.class}, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class T7WebAppSpringIT {
-
 
     @ToString
     public static class AuthRequest {
@@ -107,7 +106,6 @@ public class T7WebAppSpringIT {
         JwtToken token = response.getBody();
         log.debug("Token = {}", token);
         assertThat(token.token).isNotNull();
-
     }
 
     @Test

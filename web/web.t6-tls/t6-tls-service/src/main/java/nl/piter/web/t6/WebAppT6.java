@@ -1,14 +1,15 @@
 /* ----------------------------------------------------------------------------
- * (C-left) 2015-2025 Piter.NL - Free of use, but keep this header.
+ * (C-Left) 2015-2026 Piter.NL - Free of use, but keep this header.
  * https://www.piter.nl/github
- * See LICENSE.txt for more details.
  * ----------------------------------------------------------------------------
+ * (See LICENSE.txt for more details)
  */
 //
 package nl.piter.web.t6;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 
 /**
  * Entry point for SpringBoot application.

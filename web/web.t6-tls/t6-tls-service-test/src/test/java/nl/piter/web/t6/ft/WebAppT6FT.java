@@ -1,8 +1,8 @@
 /* ----------------------------------------------------------------------------
- * (C-left) 2015-2025 Piter.NL - Free of use, but keep this header.
+ * (C-Left) 2015-2026 Piter.NL - Free of use, but keep this header.
  * https://www.piter.nl/github
- * See LICENSE.txt for more details.
  * ----------------------------------------------------------------------------
+ * (See LICENSE.txt for more details)
  */
 //
 package nl.piter.web.t6.ft;
@@ -97,7 +97,7 @@ public class WebAppT6FT {
             log.debug("BODY    : {}", response.getBody());
             fail("Unauthorized HTTPS call must result in error.");
         } catch (HttpClientErrorException e) {
-            assertThat(e.getRawStatusCode()).isEqualTo(403);
+            assertThat(e.getStatusCode().value()).isEqualTo(403);
             log.debug("Got expected Http Exception: {}", e.getMessage());
         }
     }

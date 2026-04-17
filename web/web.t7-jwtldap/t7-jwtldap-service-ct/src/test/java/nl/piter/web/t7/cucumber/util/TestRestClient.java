@@ -1,8 +1,8 @@
 /* ----------------------------------------------------------------------------
- * (C-left) 2015-2025 Piter.NL - Free of use, but keep this header.
+ * (C-Left) 2015-2026 Piter.NL - Free of use, but keep this header.
  * https://www.piter.nl/github
- * See LICENSE.txt for more details.
  * ----------------------------------------------------------------------------
+ * (See LICENSE.txt for more details)
  */
 //
 package nl.piter.web.t7.cucumber.util;
@@ -11,10 +11,12 @@ import lombok.extern.slf4j.Slf4j;
 import nl.piter.web.t7.cucumber.exception.CucumberTestException;
 import nl.piter.web.t7.cucumber.util.jwt.JwtTestAuthRequest;
 import nl.piter.web.t7.cucumber.util.jwt.JwtTestToken;
-import org.springframework.http.*;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatusCode;
+import org.springframework.http.MediaType;
 import org.springframework.web.client.HttpStatusCodeException;
+import org.springframework.web.client.RestClient;
 import org.springframework.web.client.RestClientException;
-import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
@@ -22,29 +24,33 @@ import java.util.Collections;
 import java.util.Map;
 
 /**
- * Stateful REST client used for testing.
+ * Stateful REST Client used for testing.
  * Also handles JWT Token authentication and REST errors.
  */
 @Slf4j
-public class RestClient {
+public class TestRestClient {
 
-    private String serviceUrl;
+    private final RestClient restClient;
+    private final String serviceUrl;
 
-    private final RestTemplate restTemplate;
-
+    private String authUrl;
     private JwtTestToken token;
 
-    private ResponseEntity lastResponse;
+    private RestClient.ResponseSpec lastResponse;
     private Exception lastException;
     private HttpStatusCode lastErrorStatusCode;
     private byte[] lastErrorResponse;
 
-    private String authUrl;
-
-    public RestClient(RestTemplate restTemplate, String url) {
-        this.restTemplate = restTemplate;
+    public TestRestClient(String url) {
+        this.restClient = RestClient.builder()
+                .baseUrl(url)
+                .build();
         this.serviceUrl = url;
-        log.debug("<<< New RestClient() >>>"); // should be created each scenario.
+        log.debug("<<< New RestClient() >>>"); // Should be created for each scenario as it is stateful.
+    }
+
+    public void setAuthURl(String authPath) {
+        this.authUrl = authPath;
     }
 
     public boolean hasError() {
@@ -61,14 +67,14 @@ public class RestClient {
         }
     }
 
-    public ResponseEntity getLastResponse() {
+    public String getLastResponseAsString() {
         assertNoError();
-        return this.lastResponse;
+        return this.lastResponse.body(String.class);
     }
 
     public HttpStatusCode getLastHttpStatusCode() {
         assertNoError();
-        return this.lastResponse.getStatusCode();
+        return this.lastResponse.toBodilessEntity().getStatusCode();
     }
 
     public HttpStatusCode getLastErrorStatusCode() {
@@ -106,18 +112,7 @@ public class RestClient {
     }
 
     public JwtTestToken doPostJwtRequest(JwtTestAuthRequest authRequest) {
-        log.debug("doPostJwtRequest:");
-        clear();
-        try {
-            ResponseEntity<JwtTestToken> response = restTemplate.postForEntity(serviceUrl + authUrl, authRequest, JwtTestToken.class);
-            log.debug("JWT RESPONSE:{} => {}", response, response.getBody());
-            this.lastResponse = response;
-            return response.getBody();
-        } catch (RestClientException e) {
-            // keep error state, return null
-            handle(e, false);
-            return null;
-        }
+        return doPost(authUrl, authRequest, null, JwtTestToken.class);
     }
 
     public String doGetString(String url) {
@@ -128,27 +123,24 @@ public class RestClient {
         return doGet(url, null, responseType);
     }
 
-    public <TR, TS> TR doGet(String url, Map<String, String> queryParams, Class<TR> responseType) {
+    public <TR> TR doGet(String url, Map<String, String> queryParams, Class<TR> responseType) {
         log.debug("doGet: {}?{}", url, queryParams);
         clear();
 
-        // Query Parameters:
-        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(serviceUrl + "/" + url);
-        if (queryParams != null) {
-            queryParams.keySet().forEach(key -> builder.queryParam(key, queryParams.get(key)));
-        }
-
         try {
+            URI uri = createFullUri(serviceUrl, url, queryParams);
             // Request:
-            HttpEntity<TS> entity = new HttpEntity<>(createJsonHeaders());
-            URI uri = builder.build().encode().toUri();
-            log.debug("doGet():uri={}", uri);
-            ResponseEntity<TR> response = restTemplate.exchange(uri, HttpMethod.GET, entity, responseType);
+            HttpHeaders headers = createJsonHeaders();
 
-            log.debug("ResponseEntity:{}", response);
-            log.debug(" - BODY:{}", response.getBody());
+            log.debug("doGet():uri={}", uri);
+            RestClient.ResponseSpec response = restClient.get()
+                    .uri(uri)
+                    .headers(hdrs -> hdrs.addAll(headers))
+                    .retrieve();
+
+            log.debug("GET Response: {} => {}", response, response.body(String.class));
             this.lastResponse = response;
-            return response.getBody();
+            return response.body(responseType);
         } catch (RestClientException e) {
             // Keep error state, return null
             handle(e, false);
@@ -156,33 +148,42 @@ public class RestClient {
         }
     }
 
-
-    public <TR, TS> TR doPost(String url, TS body, Map<String, String> queryParams, Class<TR> responseType) {
-        log.debug("doPost: {}/{}", url, body);
+    public <TR, TS> TR doPost(String subUrl, TS body, Map<String, String> queryParams, Class<TR> responseType) {
+        log.debug("doPost: {}/{}", subUrl, body);
         clear();
 
-        // Query Parameters:
-        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(serviceUrl + "/" + url);
-        if (queryParams != null) {
-            queryParams.keySet().forEach(key -> builder.queryParam(key, queryParams.get(key)));
-        }
-
         try {
+            URI uri = createFullUri(serviceUrl, subUrl, queryParams);
             // Request:
-            HttpEntity<TS> entity = new HttpEntity<>(body, createJsonHeaders());
-            URI uri = builder.build().encode().toUri();
+            HttpHeaders headers = createJsonHeaders();
             log.debug("doPost():uri={}", uri);
-            ResponseEntity<TR> response = restTemplate.exchange(uri, HttpMethod.POST, entity, responseType);
+            // ResponseEntity<TR> response = restTemplate.exchange(uri, HttpMethod.POST, entity, responseType);
+            RestClient.ResponseSpec response = restClient.post()
+                    .uri(serviceUrl + authUrl)
+                    .headers(hdrs -> hdrs.addAll(headers))
+                    .body(body)
+                    .retrieve();
 
-            log.debug("ResponseEntity:{}", response);
-            log.debug(" - BODY:{}", response.getBody());
+            log.debug("POST Response: {} => {}", response, response.body(String.class));
+            TR responseBody = response.body(responseType);
             this.lastResponse = response;
-            return response.getBody();
+            return responseBody;
         } catch (RestClientException e) {
             // Keep error state, return null
             handle(e, false);
             return null;
         }
+    }
+
+    private URI createFullUri(String serviceUrl, String path, Map<String, String> queryParams) {
+        // Query Parameters:
+        UriComponentsBuilder uriBuilder = UriComponentsBuilder.fromUriString(serviceUrl + "/" + path);
+        if (queryParams != null) {
+            queryParams.keySet().forEach(key -> uriBuilder.queryParam(key, queryParams.get(key)));
+        }
+        return uriBuilder.build()
+                .encode()
+                .toUri();
     }
 
     /**
@@ -190,7 +191,6 @@ public class RestClient {
      * Let others pass.
      */
     protected void handle(RestClientException exception, boolean rethrow) {
-//        log.error("RestClientException: {}", exception.getMessage(),exception);
         log.error("handle(): RestClientException: {}", exception.getMessage());
 
         // Update (error) status, and clear previous response.
@@ -210,7 +210,5 @@ public class RestClient {
         }
     }
 
-    public void setAuthURl(String authPath) {
-        this.authUrl = authPath;
-    }
+
 }

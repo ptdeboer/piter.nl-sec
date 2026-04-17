@@ -1,8 +1,8 @@
 /* ----------------------------------------------------------------------------
- * (C-left) 2015-2025 Piter.NL - Free of use, but keep this header.
+ * (C-Left) 2015-2026 Piter.NL - Free of use, but keep this header.
  * https://www.piter.nl/github
- * See LICENSE.txt for more details.
  * ----------------------------------------------------------------------------
+ * (See LICENSE.txt for more details)
  */
 //
 package nl.piter.web.t6.config;
@@ -13,6 +13,7 @@ import nl.piter.web.t6.secure.SubjectX509PrincipalExtractor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -20,8 +21,7 @@ import org.springframework.security.web.SecurityFilterChain;
 
 
 @Configuration
-@EnableWebSecurity
-@EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true)
+@EnableMethodSecurity
 @Slf4j
 public class WebSecurityConfig {
 
