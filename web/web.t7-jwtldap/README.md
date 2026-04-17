@@ -14,8 +14,8 @@ Dev
 ---
 Architecture:
 
-- SpringBoot 3.1.4.
-- Java 17, 21
+- SpringBoot 4.0
+- Java 21
 - Uses In memory 'H2' database for demo purposes only.
 - JWT 0.10.8 using encrypted tokens.
 - Testing LDAP server from unboundid-ldapsdk.
