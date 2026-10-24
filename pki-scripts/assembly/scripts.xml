@@ -1,0 +1,19 @@
+<assembly>
+    <id>scripts</id>
+    <formats>
+        <format>zip</format>
+    </formats>
+    <includeBaseDirectory>false</includeBaseDirectory>
+    <fileSets>
+        <fileSet>
+            <directory>scripts/</directory>
+            <!-- prepend with 'scripts/' this makes it possible to create custom lib/scripts/
+                 subdirectory in a distribution -->
+            <outputDirectory>scripts</outputDirectory>
+            <includes>
+                <include>**/*</include>
+            </includes>
+            <fileMode>0755</fileMode>
+        </fileSet>
+    </fileSets>
+</assembly>
