@@ -11,11 +11,11 @@
     <name>piter.nl-sec [sec]</name>
 
     <modules>
-        <module>scripts</module>
-        <module>demos/pki-demo</module>
-        <module>sec/sec-pki</module>
-        <module>web/web.t6-tls</module>
-        <module>web/web.t7-jwtldap</module>
+        <module>pki-scripts</module>
+        <module>pki-demo</module>
+        <module>pki-minica</module>
+        <module>web.t6-tls</module>
+        <module>web.t7-jwtldap</module>
     </modules>
 
 </project>

@@ -302,6 +302,34 @@ Ubuntu
  
 Update system CAs:
 
-    /usr/share/ca-certificates
+Add .crt to:
+
+    /usr/share/ca-certificates/
+
+Or:
+
+    /usr/local/share/ca-certificates/
+
     sudo update-ca-certificates
+
+Java
+---
+
+Check symbolic links:
+
+    /usr/lib/jvm/java-21-openjdk-amd64/lib/security/cacerts -> /etc/ssl/certs/java/cacerts
+
+Then update global cacerts:
+
+    /etc/ssl/certs/java/cacerts
+
+Optionally (if needed) convert PEM to DER .crt
+
+    openssl x509 -in proxy-root-ca.pem.crt -outform der -out proxy-root-ca.der.crt
+
+    keytool -import -trustcacerts -alias root-ca-alias -file root-ca.crt -keystore cacerts
+
+    keytool -import -trustcacerts -alias root-ca-alias -file root-ca.crt -keystore /etc/ssl/certs/java/cacerts
+
+    keytool -import -alias root-ca-leg1 -file root-ca-leg1.pem.crt -keystore /etc/ssl/certs/java/cacerts  -storepass changeit
 
